@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\InfoModal;
 use App\Models\User;
+use App\Models\Transaksi\Kas;
 use Hash;
 
 class Dashboard extends Controller {
@@ -17,11 +19,45 @@ class Dashboard extends Controller {
     }
     
     public function index() {
-        return view('dashboard.pages.dashboard');
+        if (InfoModal::first()) return view('dashboard.pages.dashboard');
+        return redirect()->route('dashboard.modal');
+    }
+
+    public function modal(Request $req) {
+        if ($req->isMethod('get')) {
+            if (InfoModal::first()) return redirect()->route('dashboard');
+            return view('dashboard.pages.modal');
+        }
+
+        $this->validate(request(), [
+            'modal' => 'required|integer',
+            'tanggal' => 'required|date'
+        ], [
+            'modal.required' => 'Modal Dibutuhkan',
+            'modal.integer' => 'Modal Harus Bilangan bulat',
+            'tanggal.required' => 'Tanggal Dibutuhkan',
+            'tanggal.date' => 'Gunakan Format Tanggal Y-M-D',
+        ]);
+        
+        InfoModal::create([
+            'modal' => $req->modal, 
+            'kas' => '0'
+        ]);
+
+        Kas::create([
+            'tanggal' => $req->tanggal,
+            'kategori_id' => 3,
+            'jenis' => 'pemasukan',
+            'nama' => 'Modal Awal',
+            'total' => $req->modal
+        ]);
+        
+        return redirect()->route('dashboard');
     }
 
     public function main() {
-        return view('dashboard.pages.main');
+        $info = InfoModal::first();
+        return view('dashboard.pages.main', compact('info'));
     }
 
     public function error(Request $req) {

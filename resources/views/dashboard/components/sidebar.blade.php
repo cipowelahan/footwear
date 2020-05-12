@@ -5,7 +5,7 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENU UTAMA</li>
-      <li><a href="{{url('dashboard/main')}}" route="menu"><i class="fa fa-home"></i> <span>Halaman Utama</span></a></li>
+      <li><a href="{{url('dashboard/main')}}" route="menu"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
       <li class="treeview">
         <a href="#">
           <i class="fa fa-archive"></i> <span>Master Data</span>

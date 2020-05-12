@@ -17,6 +17,7 @@ class CreateTableTransaksiKas extends Migration
             $table->increments('id');
             $table->unsignedInteger('kategori_id')->nullable();
             $table->date('tanggal')->nullable();
+            $table->enum('jenis', ['pengeluaran', 'pemasukan'])->default('pengeluaran');
             $table->string('nama', 190);
             $table->bigInteger('total')->default(0);
 

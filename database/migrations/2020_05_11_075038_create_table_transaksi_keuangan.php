@@ -22,6 +22,7 @@ class CreateTableTransaksiKeuangan extends Migration
             $table->enum('jenis', ['masuk', 'keluar'])->default('masuk');
             $table->string('keterangan', 190)->nullable();
             $table->bigInteger('total');
+            $table->string('sisa_kas', 190)->default(0);
 
             $table->foreign('transaksi_id')
                 ->references('id')

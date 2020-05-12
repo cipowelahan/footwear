@@ -25,6 +25,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'guest'], function() {
     Route::get('/main', 'Dashboard\Dashboard@main');
     Route::post('/error', 'Dashboard\Dashboard@error');
     Route::get('/logout', 'Dashboard\Dashboard@logout')->name('logout');
+    Route::match(['get', 'post'], '/modal', 'Dashboard\Dashboard@modal')->name('dashboard.modal');
 
     Route::group(['prefix' => 'pencarikerja'], function () {
         Route::get('/', 'Dashboard\PencariKerja@index');
