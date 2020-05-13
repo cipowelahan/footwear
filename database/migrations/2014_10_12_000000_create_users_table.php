@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->integer('level')->default(1);
             $table->string('no_hp', 190)->nullable();
             $table->text('alamat')->nullable();
-            $table->text('foto')->nullable();
+            $table->text('foto')->nullable()->default('assets/image/profil.jpg');
             $table->rememberToken();
             $table->datetime('created_at')->nullable();
             $table->datetime('updated_at')->nullable();

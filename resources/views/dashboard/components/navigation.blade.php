@@ -25,20 +25,16 @@
         </li> --}}
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              {{-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> --}}
-              <i class="fa fa-user-circle user-image"></i>
-              {{-- <span class="hidden-xs" id="profil-head">{{auth()->user()->nama}}</span> --}}
+              <img id="profil-foto-head" src="{{asset('public/'.auth()->user()->foto)}}" class="user-image" alt="User Image">
+              <span class="hidden-xs" id="profil-head">{{auth()->user()->nama}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                {{-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> --}}
-
+                <img id="profil-foto" src="{{asset('public/'.auth()->user()->foto)}}" class="img-circle" alt="User Image">
                 <p>
-                  {{-- <span id="profil-nama">{{auth()->user()->nama}}</span> <br>
-                  <span id="profil-email">{{auth()->user()->email}}</span> <br>
-                  <span id="profil-nama-perusahaan">{{auth()->user()->nama_perusahaan}}</span> <br>
-                  <span id="profil-kontak">{{auth()->user()->kontak}}</span> --}}
+                  <span id="profil-nama">{{auth()->user()->nama}}</span> <br>
+                  <span id="profil-username">{{auth()->user()->username}}</span> <br>
                 </p>
               </li>
               <!-- Menu Body -->

@@ -5,7 +5,7 @@
 </section>
 
 <section class="content">
-    <form class="form-horizontal" action="">
+    <form class="form-horizontal" action="post" enctype="multipart/form-data">
         <div class="box">
             <div class="box-body">
                 {{csrf_field()}}
@@ -16,30 +16,43 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="kelamin">Kelamin</label>
+                    <label class="col-sm-2 control-label" for="username">Username</label>
                     <div class="col-sm-5">
-                        <select name="kelamin" class="form-control">
-                            <option value="L" @if($user->kelamin == 'L') selected @endif >Laki - Laki</option>
-                            <option value="P" @if($user->kelamin == 'P') selected @endif >Perempuan</option>
-                        </select>
+                        <input type="text" name="username" placeholder="Username" class="form-control" value="{{$user->username}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="email">Email</label>
+                    <label class="col-sm-2 control-label" for="no_hp">No HP</label>
                     <div class="col-sm-5">
-                        <input type="email" name="email" placeholder="Email" class="form-control" value="{{$user->email}}">
+                        <input type="text" name="no_hp" placeholder="No HP" class="form-control" value="{{$user->no_hp}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="nama_perusahaan">Nama Perusahaan</label>
+                    <label class="col-sm-2 control-label" for="alamat">Alamat</label>
                     <div class="col-sm-5">
-                        <input type="text" name="nama_perusahaan" placeholder="Nama Perusahaan" class="form-control" value="{{$user->nama_perusahaan}}">
+                        <textarea name="alamat" class="form-control" name="alamat" placeholder="Alamat">{{$user->alamat}}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="kontak">Kontak</label>
+                    <label class="col-sm-2 control-label" for="foto">Foto</label>
                     <div class="col-sm-5">
-                        <input type="text" name="kontak" placeholder="Kontak" class="form-control" value="{{$user->kontak}}">
+                        @if($user->foto)
+                        <div id="gambar">
+                            <img src="{{asset('public/'.$user->foto)}}" class="img-thumbnail">
+                            <br>
+                            <br>
+                            <button type="button" class="btn btn-warning" onclick="changeImage()">Ganti Gambar</button>
+                        </div>
+                        @endif
+                        <div id="input-gambar" @if($user->foto) style="display: none" @endif>
+                            <input name="foto" class="form-control" type="file" accept="image/*">
+                        </div>
+                        @if($user->foto)
+                        <div style="display: none" id="btn-cancel-gambar">
+                            <br>
+                            <button type="button" class="btn btn-danger" onclick="cancelChangeImage()">Batalkan Ganti Gambar</button>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -59,22 +72,60 @@
 <script>
     var thisPath = "{{request()->url()}}";
 
+    $('[type=file]').fileinput({
+        showUpload: false,
+        dropZoneEnabled: false,
+        autoOrientImage: false,
+        allowedFileExtensions: ['jpeg', 'jpg', 'png']
+    })
+
+    function changeImage() {
+        $('#gambar').hide()
+        $('#input-gambar').show()
+        $('#btn-cancel-gambar').show()
+    }
+
+    function cancelChangeImage() {
+        $('#gambar').show()
+        $('#input-gambar').hide()
+        $('#btn-cancel-gambar').hide()
+        $('[type=file]').fileinput('clear')
+    }
+
     $(function() {
         $('form').submit(function(e) {
             e.preventDefault();
-            let data = $(this).serialize();
-            
+            var formData = new FormData(this);
+
             bootbox.confirm('Anda yakin ?', function(ok) {
                 if (ok) {
-                    routeMenu('post', thisPath, data, function(result) {
-                        if (result.success) {
-                            routeMenu('get', thisPath);
-                            $('#profil-head').text(result.data.nama)
-                            $('#profil-nama').text(result.data.nama)
-                            $('#profil-email').text(result.data.email)
-                            $('#profil-nama-perusahaan').text(result.data.nama_perusahaan)
-                            $('#profil-kontak').text(result.data.kontak)
-                            notification('berhasil', 'success');
+                    loader('show')
+                    $.ajax({
+                        url : thisPath,
+                        method : 'POST',
+                        data : formData,
+                        cache: false,                                                
+                        contentType: false,                                             
+                        processData: false,
+                        success: function(result) {
+                            loader('hide')
+                            if (result.success) {
+                                routeMenu('get', thisPath);
+                                $('#profil-head').text(result.data.nama)
+                                $('#profil-nama').text(result.data.nama)
+                                $('#profil-username').text(result.data.username)
+                                $('#profil-foto-head').attr('src', '{{url('public')}}/'+result.data.foto)
+                                $('#profil-foto').attr('src', '{{url('public')}}/'+result.data.foto)
+                                notification('berhasil', 'success');
+                            }
+                            else {
+                                notification(result.message, 'error');
+                            }
+                        },
+                        error: function(error) {
+                            loader('hide')
+                            if (error.status == 422) notification(error.responseText, 'error');
+                            else notification(error.statusText, 'error');
                         }
                     });
 

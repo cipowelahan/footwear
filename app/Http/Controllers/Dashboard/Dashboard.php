@@ -93,12 +93,12 @@ class Dashboard extends Controller {
         }
         
         $this->validate(request(), [
-            'email' => 'required',
+            'username' => 'required',
             'password' => 'required|min:1'
         ]);
 
         $credential = [
-            'email' => $req->email,
+            'username' => $req->username,
             'password' => $req->password
         ];
 

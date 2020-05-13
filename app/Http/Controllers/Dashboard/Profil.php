@@ -7,12 +7,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use Hash;
+use File, DB, Exception, Hash;
 
 class Profil extends Controller {
 
     public function __construct() {
         $this->middleware('ajax');
+    }
+
+    private function beforeSave($req, $imageUrl = null) {
+        if ($req->hasFile('foto')) {
+            $file = $req->file('foto');
+            $extension = $file->getClientOriginalExtension(); 
+            $fileName = time().'.'.$extension;
+            $path = public_path().'/images/profil';
+            $upload = $file->move($path,$fileName);
+            $foto = "images/profil/$fileName";
+            if ($imageUrl) $lastImage = $imageUrl;
+        }
+        else {
+            $foto = $imageUrl ?? null;
+        }
+
+        $data = $req->except('_token');
+        $data['foto'] = $foto;
+
+        if (isset($lastImage)) $data['lastImage'] = $lastImage;
+
+        return $data;
     }
     
     public function profil(Request $req) {
@@ -26,12 +48,30 @@ class Profil extends Controller {
             return response($validation->errors()->first() ,422);
         }
 
-        $user->update($req->except('_token'));
+        try {
+            DB::beginTransaction();
 
-        return response()->json([
-            'success' => true,
-            'data' => $user
-        ]);
+            $data = $this->beforeSave($req, $user->foto);
+
+            if (isset($data['lastImage'])) {
+                @unlink(public_path().'/'.$data['lastImage']);
+                unset($data['lastImage']);
+            }
+            $user->update($data);
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'data' => $user
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    
     }
 
     public function password(Request $req) {

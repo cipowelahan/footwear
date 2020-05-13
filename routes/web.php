@@ -20,7 +20,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'guest'], function() {
     // Route::match(['get', 'post'], '/register', 'Dashboard\Dashboard@register')->name('register');
 });
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'guest'], function() {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], function() {
     Route::get('/', 'Dashboard\Dashboard@index')->name('dashboard');
     Route::get('/main', 'Dashboard\Dashboard@main');
     Route::post('/error', 'Dashboard\Dashboard@error');
