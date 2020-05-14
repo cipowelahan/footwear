@@ -80,6 +80,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
             Route::match(['get', 'post'], '/edit', 'Dashboard\Kas\Kas@update');
             Route::post('/delete', 'Dashboard\Kas\Kas@delete');
         });
+        
+        Route::group(['prefix' => 'keuangan'], function () {
+            Route::get('/', 'Dashboard\Kas\Keuangan@index');
+        });
 
     });
 

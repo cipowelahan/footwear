@@ -12,6 +12,14 @@ class Keuangan extends Model {
 
     public $timestamps = false;
 
+    protected $appends = [
+        'total_format'
+    ];
+
+    public function getTotalFormatAttribute() {
+        return number_format($this->total);
+    }
+
     public function asset() {
         return $this->belongsTo('App\Models\Transaksi\Asset', 'asset_id');
     }

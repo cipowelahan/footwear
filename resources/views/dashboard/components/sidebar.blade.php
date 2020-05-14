@@ -44,6 +44,7 @@
         <ul class="treeview-menu">
           <li><a href="{{url('dashboard/kas/asset')}}" route="menu"><i class="fa fa-circle-o"></i>Asset</a></li>
           <li><a href="{{url('dashboard/kas/kas')}}" route="menu"><i class="fa fa-circle-o"></i>Kas</a></li>
+          <li><a href="{{url('dashboard/kas/keuangan')}}" route="menu"><i class="fa fa-circle-o"></i>Keuangan</a></li>
         </ul>
       </li>
       <li class="treeview">

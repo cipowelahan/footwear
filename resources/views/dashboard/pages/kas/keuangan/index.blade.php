@@ -1,7 +1,7 @@
 <section class="content-header">
     <h1>
-        Data Pencari Kerja
-        <small>Daftar Pencari Kerja</small>
+        Data Keuangan Kas
+        <small>Daftar Keuangan Kas</small>
     </h1>
 </section>
 
@@ -10,13 +10,14 @@
         <div class="box-header with-border">
             <div class="row">
                 <div class="col-sm-6">
-                    <button type="button" id="btn-create" class="btn btn-success">Tambah Data</button>
-                    <button type="button" id="btn-upload" class="btn btn-primary">Upload Data</button>
+                    {{-- <button type="button" id="btn-create" class="btn btn-success">Tambah Data</button> --}}
                 </div>
 
                 <div class="col-sm-6">
                     <div class="box-tools pull-right">
-                        <form id="cari" method="POST" class="form-inline">
+                        <form id="cari" method="POST">
+
+                            <!-- Modal filter -->
                             <div class="input-group">
                                 <div class="modal fade" tabindex="-1" role="dialog" id="boxfilter">
                                     <div class="modal-dialog" role="document">
@@ -29,12 +30,26 @@
 
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-sm-6">Jenis Kelamin</div>
+                                                    <div class="col-sm-6">Tanggal Mulai</div>
                                                     <div class="col-sm-6">
-                                                        <select name="kelamin" class="form-control" style="width: 100%">
-                                                            <option value="">Semua Kelamin</option>
-                                                            <option value="L">Laki - Laki (L)</option>
-                                                            <option value="P">Perempuan (P)</option>
+                                                        <input id="tanggal_mulai" name="tanggal_mulai" class="form-control" type="text" autocomplete="off">
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <div class="col-sm-6">Tanggal Selesai</div>
+                                                    <div class="col-sm-6">
+                                                        <input id="tanggal_selesai" name="tanggal_selesai" class="form-control" type="text" autocomplete="off">
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <hr>
+                                                    <div class="col-sm-6">Keterangan</div>
+                                                    <div class="col-sm-6">
+                                                        <select name="keterangan" class="form-control" style="width: 100%">
+                                                            <option value="">Semua Keterangan</option>
+                                                            <option value="asset">Asset</option>
+                                                            <option value="kas">Kas</option>
+                                                            <option value="transaksi">Transaksi</option>
                                                         </select>
                                                     </div>
                                                     <br>
@@ -42,14 +57,9 @@
                                                     <div class="col-sm-6">Urutkan Berdasarkan</div>
                                                     <div class="col-sm-6">
                                                         <select name="order_column" class="form-control" style="width: 100%">
-                                                            <option value="id">ID</option>
-                                                            <option value="tanggal_pendaftaran">Tanggal Pendaftaran</option>
-                                                            <option value="no_ktp">KTP</option>
-                                                            <option value="nama">Nama</option>
-                                                            <option value="kelamin">Kelamin</option>
-                                                            <option value="umur">Umur</option>
-                                                            <option value="pendidikan">Pendidikan</option>
-                                                            <option value="status_kerja">Status Bekerja</option>
+                                                            <option value="tanggal">Tanggal</option>
+                                                            <option value="jenis">Jenis</option>
+                                                            <option value="total">Total</option>
                                                         </select>
                                                     </div>
                                                     <br>
@@ -71,6 +81,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- End Modal filter -->
+
+                            <!-- Box Search -->
                             <div class="input-group" style="width: 250px;">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#boxfilter">Filter</button>
@@ -80,6 +93,8 @@
                                     <button class="btn btn-default" type="submit" id="cari-cari"><span class="fa fa-search"></span> Cari</button>
                                 </span>
                             </div>
+                            <!-- End Box Search -->
+
                         </form>
                     </div>
                 </div>
@@ -92,41 +107,25 @@
             <table class="table table-bordered" style="width:100%">
                 <thead>
                     <tr style="background-color: #3c8dbc; color: #ffffff">
-                        <th>ID</th>
-                        <th style="width:15%">Tanggal Pendaftaran</th>
-                        <th>KTP</th>
-                        <th>Nama</th>
-                        <th>Kelamin</th>
-                        <th>Umur</th>
-                        <th>Kontak</th>
-                        <th>Pendidikan</th>
-                        <th>Status Bekerja</th>
-                        @if(auth()->user()->role_id == 1)
-                        <th>Dibuat Oleh</th>
-                        @endif
-                        <th style="width:20%">Aksi</th>
+                        <th style="width:10%">Tanggal</th>
+                        <th style="width:10%">Jenis</th>
+                        <th>Total</th>
+                        <th style="width:20%">Keterangan</th>
+                        <th style="width:10%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pencarikerja as $data)
+                    @foreach($keuangan as $data)
                     <tr>
-                        <td>{{$data->id}}</td>
-                        <td>{{$data->tanggal_pendaftaran}}</td>
-                        <td>{{$data->no_ktp}}</td>
-                        <td>{{$data->nama}}</td>
-                        <td>{{$data->kelamin == 'L' ? 'Laki - Laki':'Perempuan'}}</td>
-                        <td>{{$data->umur}}</td>
-                        <td>{{$data->kontak}}</td>
-                        <td>{{$data->pendidikan}}</td>
-                        <td>{{$data->status_kerja}}</td>
-                        @if(auth()->user()->role_id == 1)
-                        <td>{{$data->user->nama}}</td>
-                        @endif
+                        <td>{{$data->tanggal}}</td>
+                        <td>{{ucfirst($data->jenis)}}</td>
+                        <td>{{$data->total_format}}</td>
+                        <td>{{$data->keterangan}}</td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#info{{$loop->index}}">Lihat</button>
-                                <button type="button" class="btn btn-warning" data-id="{{$data->id}}">Edit</button>
-                                <button type="button" class="btn btn-danger" data-id="{{$data->id}}">Hapus</button>
+                                {{-- <button type="button" class="btn btn-warning" data-id="{{$data->id}}">Edit</button>
+                                <button type="button" class="btn btn-danger" data-id="{{$data->id}}">Hapus</button> --}}
                             </div>
                         </td>
                     </tr>
@@ -153,132 +152,99 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Tanggal Pendaftaran</label>
+                                                <label>Tanggal</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->tanggal_pendaftaran}}
+                                                {{$data->tanggal}}
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Nomor KTP</label>
+                                                <label>Jenis</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->no_ktp}}
+                                                {{ucfirst($data->jenis)}}
                                             </div>
                                         </div>
                                         <br>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
+                                                <label>Total</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                {{$data->total_format}}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
+                                                <label>Keterangan</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                {{ucfirst($data->keterangan)}}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p class="text-center">Detail</p>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
+                                                <label>ID</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                {{$data->{$data->keterangan}->id}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
+                                                <label>Tanggal</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                {{$data->{$data->keterangan}->tanggal}}
+                                            </div>
+                                        </div>
+                                        @if($data->keterangan != 'transaksi')
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
                                                 <label>Nama</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->nama}}
+                                                {{$data->{$data->keterangan}->nama}}
                                             </div>
                                         </div>
-                                        <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Umur</label>
+                                                <label>Kategori</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->umur}}
+                                                {{$data->{$data->keterangan}->kategori->nama}}
                                             </div>
                                         </div>
-                                        <br>
+                                        @endif
+                                        @if($data->keterangan != 'asset')
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Jenis Kelamin</label>
+                                                <label>Jenis</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->kelamin == 'L' ? 'Laki - Laki':'Perempuan'}}
+                                                {{ucfirst($data->{$data->keterangan}->jenis)}}
                                             </div>
                                         </div>
-                                        <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Status</label>
+                                                <label>Total/Harga</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->status}}
+                                                {{$data->{$data->keterangan}->total_format}}
                                             </div>
                                         </div>
-                                        <br>
+                                        @else
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Pendidikan</label>
+                                                <label>Total/Harga</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->pendidikan}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Jurusan</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->jurusan}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Alamat</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <textarea style="background-color: #fff0" class="form-control" rows="4" readonly>{{$data->alamat}}</textarea>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Kontak</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->kontak}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Status Kerja</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->status_kerja}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Lokasi Kerja</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <textarea style="background-color: #fff0" class="form-control" rows="4" readonly>{{$data->lokasi_kerja}}</textarea>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Gambar</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                @if($data->gambar)
-                                                <img src="{{asset($data->gambar)}}" class="img-thumbnail">
-                                                @else
-                                                Belum di Upload
-                                                @endif
-                                            </div>
-                                        </div>
-                                        @if(auth()->user()->role_id == 1)
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Dibuat Oleh</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->user->nama}}
+                                                {{$data->{$data->keterangan}->harga_beli_format}}
                                             </div>
                                         </div>
                                         @endif
@@ -297,10 +263,12 @@
                 </tbody>
             </table>
 
-            <div class="box-tools pull-right">{{ $pencarikerja->appends(['search' => request()->get('search'), 
-                                                                        'order_column' => request()->get('order_column'), 
-                                                                        'order' => request()->get('order'), 
-                                                                        'kelamin' => request()->get('kelamin')])->links() }}</div>
+            <div class="box-tools pull-right">{{ $keuangan->appends(['search' => request()->get('search'), 
+                                                                    'order_column' => request()->get('order_column'), 
+                                                                    'order' => request()->get('order'),
+                                                                    'tanggal_mulai' => request()->get('tanggal_mulai'),
+                                                                    'tanggal_selesai' => request()->get('tanggal_selesai'),
+                                                                    'keterangan' => request()->get('keterangan')])->links()}}</div>
             
         </div>
     </div>
@@ -309,9 +277,18 @@
 <script>
     var thisPath = "{{request()->url()}}";
 
-    $('[name=order_column]').val('{{request()->get('order_column', 'id')}}')
-    $('[name=order]').val('{{request()->get('order', 'asc')}}')
-    $('[name=kelamin]').val('{{request()->get('kelamin')}}')
+    $('[name=order_column]').val('{{request()->get('order_column', 'tanggal')}}')
+    $('[name=order]').val('{{request()->get('order', 'desc')}}')
+
+    $('#tanggal_mulai').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true
+    }).datepicker('setDate', '{{request()->get('tanggal_mulai') ?? ''}}')
+
+    $('#tanggal_selesai').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true
+    }).datepicker('setDate', '{{request()->get('tanggal_selesai') ?? ''}}')
 
     function submitFilter() {
         setTimeout(function() {
@@ -322,10 +299,6 @@
     $(function() {
         $('#btn-create').click(function() {
             routeMenu('get', thisPath+'/create')
-        })
-
-        $('#btn-upload').click(function() {
-            routeMenu('get', thisPath+'/upload')
         })
 
         $('ul.pagination li a').click(function() {
