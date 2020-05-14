@@ -8,7 +8,7 @@ use App\Models\Transaksi\Keuangan;
 trait KeuanganTransaksi {
 
     public static function bootKeuanganTransaksi() {
-        static::saved(function ($model) {
+        static::created(function ($model) {
             $info = InfoModal::first();
             $kas = ($model->jenis == 'pembelian') ? ($info->kas - $model->total):($info->kas + $model->total); 
             $info->update([

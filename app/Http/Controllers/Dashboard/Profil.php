@@ -54,7 +54,7 @@ class Profil extends Controller {
             $data = $this->beforeSave($req, $user->foto);
 
             if (isset($data['lastImage'])) {
-                @unlink(public_path().'/'.$data['lastImage']);
+                if (strpos('assets', $data['lastImage']) !== false) @unlink(public_path().'/'.$data['lastImage']);
                 unset($data['lastImage']);
             }
             $user->update($data);

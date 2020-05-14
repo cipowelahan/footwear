@@ -12,7 +12,19 @@ class AssetKategori extends Model {
 
     public $timestamps = false;
 
+    public static function getRules() {
+        return [
+            'nama' => 'required'
+        ];
+    }
+
+    public static function getMessages() {
+        return [
+            'nama.required' => 'Nama Dibutuhkan'
+        ];
+    }
+
     public function asset() {
-        return $this->hasMany('App\Models\Master\Asset', 'kategori_id');
+        return $this->hasMany('App\Models\Transaksi\Asset', 'kategori_id');
     }
 }

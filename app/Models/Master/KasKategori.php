@@ -12,6 +12,18 @@ class KasKategori extends Model {
 
     public $timestamps = false;
 
+    public static function getRules() {
+        return [
+            'nama' => 'required'
+        ];
+    }
+
+    public static function getMessages() {
+        return [
+            'nama.required' => 'Nama Dibutuhkan'
+        ];
+    }
+
     public function kas() {
         return $this->hasMany('App\Models\Transaksi\Kas', 'kategori_id');
     }

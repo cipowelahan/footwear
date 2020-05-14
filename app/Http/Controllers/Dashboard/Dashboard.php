@@ -30,14 +30,15 @@ class Dashboard extends Controller {
         }
 
         $this->validate(request(), [
-            'modal' => 'required|integer',
+            'modal' => 'required',
             'tanggal' => 'required|date'
         ], [
             'modal.required' => 'Modal Dibutuhkan',
-            'modal.integer' => 'Modal Harus Bilangan bulat',
             'tanggal.required' => 'Tanggal Dibutuhkan',
             'tanggal.date' => 'Gunakan Format Tanggal Y-M-D',
         ]);
+
+        $req->merge(['modal' => str_replace(',','',$req->modal)]);
         
         InfoModal::create([
             'modal' => $req->modal, 

@@ -1,7 +1,7 @@
 <section class="content-header">
     <h1>
-        Tambah Data Karyawan
-        <small>Tambah Data Karyawan</small>
+        Edit Data Kategori Asset
+        <small>Edit Data Kategori Asset</small>
     </h1>
 </section>
 
@@ -12,33 +12,15 @@
             <div class="box-body">
                 {{csrf_field()}}
                 <div class="form-group">
+                    <label class="col-sm-3 control-label" for="status_martial">ID</label>
+                    <div class="col-sm-5">
+                        <input class="form-control" type="text" name="id" value="{{$assetkategori->id}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label" for="nama">Nama</label>
                     <div class="col-sm-5">
-                        <input name="nama" class="form-control" type="text">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="jabatan">Jabatan</label>
-                    <div class="col-sm-5">
-                        <input name="jabatan" class="form-control" type="text">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="posisi">Posisi</label>
-                    <div class="col-sm-5">
-                        <input name="posisi" class="form-control" type="text">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="alamat">Alamat</label>
-                    <div class="col-sm-5">
-                        <textarea name="alamat" class="form-control"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="kontak">Kontak</label>
-                    <div class="col-sm-5">
-                        <input name="kontak" class="form-control" type="text">
+                        <input name="nama" class="form-control" type="text" value="{{$assetkategori->nama}}">
                     </div>
                 </div>
             </div>
@@ -59,9 +41,10 @@
 <script>
     var thisPath = "{{request()->url()}}";
 
+
     function cancel() {
         event.preventDefault();
-        routeMenu('get', thisPath.replace("/create", ""));
+        routeMenu('get', thisPath.replace("/edit", ""));
     }
 
     $(function() {
@@ -69,11 +52,12 @@
         $('form').submit(function(e) {
             e.preventDefault();
             var data = $(this).serialize();
+            var id = $('[name=id]').val();
             bootbox.confirm('Anda yakin ?', function(ok) {
                 if (ok) {
                     routeMenu('post', thisPath, data, function(result) {
                         if (result == "1") {
-                            routeMenu('get', thisPath.replace("/create", ""));
+                            routeMenu('get', thisPath.replace("/edit", ""));
                             notification('berhasil', 'success');
                         }
                     });
@@ -81,7 +65,7 @@
                 }
             })
         })
-        
+
     })
 
 </script>

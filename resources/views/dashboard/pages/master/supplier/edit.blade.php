@@ -1,7 +1,7 @@
 <section class="content-header">
     <h1>
-        Edit Data Karyawan
-        <small>Edit Data Karyawan</small>
+        Edit Data Supplier
+        <small>Edit Data Supplier</small>
     </h1>
 </section>
 
@@ -14,37 +14,25 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="status_martial">ID</label>
                     <div class="col-sm-5">
-                        <input class="form-control" type="text" name="id" value="{{$karyawan->id}}" readonly>
+                        <input class="form-control" type="text" name="id" value="{{$supplier->id}}" readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="nama">Nama</label>
                     <div class="col-sm-5">
-                        <input name="nama" class="form-control" type="text" value="{{$karyawan->nama}}">
+                        <input name="nama" class="form-control" type="text" value="{{$supplier->nama}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="jabatan">Jabatan</label>
+                    <label class="col-sm-3 control-label" for="no_hp">No HP</label>
                     <div class="col-sm-5">
-                        <input name="jabatan" class="form-control" type="text" value="{{$karyawan->jabatan}}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="posisi">Posisi</label>
-                    <div class="col-sm-5">
-                        <input name="posisi" class="form-control" type="text" value="{{$karyawan->posisi}}">
+                        <input name="no_hp" class="form-control" type="text" value="{{$supplier->no_hp}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="alamat">Alamat</label>
                     <div class="col-sm-5">
-                        <textarea name="alamat" class="form-control">{{$karyawan->alamat}}</textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="kontak">Kontak</label>
-                    <div class="col-sm-5">
-                        <input name="kontak" class="form-control" type="text" value="{{$karyawan->kontak}}">
+                        <textarea name="alamat" class="form-control">{{$supplier->alamat}}</textarea>
                     </div>
                 </div>
             </div>

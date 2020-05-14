@@ -13,7 +13,7 @@ class Keuangan extends Model {
     public $timestamps = false;
 
     public function asset() {
-        return $this->belongsTo('App\Models\Master\Asset', 'asset_id');
+        return $this->belongsTo('App\Models\Transaksi\Asset', 'asset_id');
     }
 
     public function kas() {

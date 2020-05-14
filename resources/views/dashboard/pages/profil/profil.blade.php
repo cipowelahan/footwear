@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="alamat">Alamat</label>
                     <div class="col-sm-5">
-                        <textarea name="alamat" class="form-control" name="alamat" placeholder="Alamat">{{$user->alamat}}</textarea>
+                        <textarea name="alamat" class="form-control" rows="4" placeholder="Alamat">{{$user->alamat}}</textarea>
                     </div>
                 </div>
                 <div class="form-group">

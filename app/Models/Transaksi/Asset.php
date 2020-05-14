@@ -2,28 +2,28 @@
 
 namespace App\Models\Transaksi;
 
-use App\Traits\KeuanganKas;
+use App\Traits\KeuanganAsset;
 use Illuminate\Database\Eloquent\Model;
 
-class Kas extends Model {
+class Asset extends Model {
 
-    use KeuanganKas;
+    use KeuanganAsset;
     
-    protected $table = 'tr_kas';
+    protected $table = 'tr_asset';
 
     protected $guarded = [];
 
     public $timestamps = false;
 
     protected $appends = [
-        'total_format'
+        'harga_beli_format'
     ];
 
     public static function getRules() {
         return [
             'nama' => 'required',
             'tanggal' => 'required|date',
-            'total' => 'required'
+            'harga_beli' => 'required'
         ];
     }
 
@@ -32,20 +32,19 @@ class Kas extends Model {
             'nama.required' => 'Nama Dibutuhkan',
             'tanggal.required' => 'Tanggal Dibutuhkan',
             'tanggal.date' => 'Gunakan Format Tanggal Y-M-D',
-            'total.required' => 'Harga Beli Dibutuhkan',
+            'harga_beli.required' => 'Harga Beli Dibutuhkan',
         ];
     }
 
-    public function getTotalFormatAttribute() {
-        return number_format($this->total);
+    public function getHargaBeliFormatAttribute() {
+        return number_format($this->harga_beli);
     }
 
     public function kategori() {
-        return $this->belongsTo('App\Models\Master\KasKategori', 'kategori_id');
+        return $this->belongsTo('App\Models\Master\AssetKategori', 'kategori_id');
     }
 
     public function keuangan() {
-        return $this->hasMany('App\Models\Transaksi\Keuangan', 'kas_id');
+        return $this->hasMany('App\Models\Transaksi\Keuangan', 'asset_id');
     }
-
 }

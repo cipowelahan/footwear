@@ -1,7 +1,7 @@
 <section class="content-header">
     <h1>
-        Data Karyawan
-        <small>Daftar Karyawan</small>
+        Data Kategori Asset
+        <small>Daftar Kategori Asset</small>
     </h1>
 </section>
 
@@ -16,12 +16,70 @@
                 <div class="col-sm-6">
                     <div class="box-tools pull-right">
                         <form id="cari" method="POST">
-                            <div class="input-group" style="width: 200px;">
+
+                            <!-- Modal filter -->
+                            <div class="input-group">
+                                <div class="modal fade" tabindex="-1" role="dialog" id="boxfilter">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header btn-primary">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Filter Pencarian</h4>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    {{-- <div class="col-sm-6">Jenis Kelamin</div>
+                                                    <div class="col-sm-6">
+                                                        <select name="kelamin" class="form-control" style="width: 100%">
+                                                            <option value="">Semua Kelamin</option>
+                                                            <option value="L">Laki - Laki (L)</option>
+                                                            <option value="P">Perempuan (P)</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <hr> --}}
+                                                    <div class="col-sm-6">Urutkan Berdasarkan</div>
+                                                    <div class="col-sm-6">
+                                                        <select name="order_column" class="form-control" style="width: 100%">
+                                                            <option value="id">ID</option>
+                                                            <option value="nama">Nama</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <div class="col-sm-6">Urutkan Besar/Abjad</div>
+                                                    <div class="col-sm-6">
+                                                        <select name="order" class="form-control" style="width: 100%">
+                                                            <option value="asc">Kecil - Besar ( A - Z )</option>
+                                                            <option value="desc">Besar - Kecil ( Z - A )</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submitFilter()">Filter</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal filter -->
+
+                            <!-- Box Search -->
+                            <div class="input-group" style="width: 250px;">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#boxfilter">Filter</button>
+                                </span>
                                 <input type="text" class="form-control" name="search" value="{{request()->get('search')}}">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><span class="fa fa-search"></span> Cari</button>
+                                    <button class="btn btn-default" type="submit" id="cari-cari"><span class="fa fa-search"></span> Cari</button>
                                 </span>
                             </div>
+                            <!-- End Box Search -->
+
                         </form>
                     </div>
                 </div>
@@ -34,28 +92,16 @@
             <table class="table table-bordered" style="width:100%">
                 <thead>
                     <tr style="background-color: #3c8dbc; color: #ffffff">
-                        <th>ID</th>
+                        <th style="width:10%">ID</th>
                         <th>Nama</th>
-                        <th>Jabatan</th>
-                        <th>Posisi</th>
-                        <th>Kontak</th>
-                        @if(auth()->user()->role_id == 1)
-                        <th>Dibuat Oleh</th>
-                        @endif
                         <th style="width:20%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($karyawan as $data)
+                    @foreach($assetkategori as $data)
                     <tr>
                         <td>{{$data->id}}</td>
                         <td>{{$data->nama}}</td>
-                        <td>{{$data->jabatan}}</td>
-                        <td>{{$data->posisi}}</td>
-                        <td>{{$data->kontak}}</td>
-                        @if(auth()->user()->role_id == 1)
-                        <td>{{$data->user->nama}}</td>
-                        @endif
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#info{{$loop->index}}">Lihat</button>
@@ -93,53 +139,6 @@
                                                 {{$data->nama}}
                                             </div>
                                         </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Jabatan</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->jabatan}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Posisi</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->posisi}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Alamat</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <textarea style="background-color: #fff0" class="form-control" rows="4" readonly>{{$data->alamat}}</textarea>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Kontak</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->kontak}}
-                                            </div>
-                                        </div>
-                                        @if(auth()->user()->role_id == 1)
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Dibuat Oleh</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->user->nama}}
-                                            </div>
-                                        </div>
-                                        @endif
                                     </form>
                                     <div></div>
                                 </div>
@@ -155,7 +154,9 @@
                 </tbody>
             </table>
 
-            <div class="box-tools pull-right">{{ $karyawan->appends(['search' => request()->get('search')])->links() }}</div>
+            <div class="box-tools pull-right">{{ $assetkategori->appends(['search' => request()->get('search'), 
+                                                                    'order_column' => request()->get('order_column'), 
+                                                                    'order' => request()->get('order')])->links() }}</div>
             
         </div>
     </div>
@@ -163,6 +164,15 @@
 
 <script>
     var thisPath = "{{request()->url()}}";
+
+    $('[name=order_column]').val('{{request()->get('order_column', 'id')}}')
+    $('[name=order]').val('{{request()->get('order', 'asc')}}')
+
+    function submitFilter() {
+        setTimeout(function() {
+            $('#cari-cari').trigger('click')
+        }, 600)
+    }
 
     $(function() {
         $('#btn-create').click(function() {

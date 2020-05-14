@@ -42,7 +42,7 @@
       </div>
       <div class="form-group has-feedback">
         <label for="modal">Modal Awal</label>
-        <input type="text" class="form-control number-input" placeholder="Modal Awal" name="modal">
+        <input type="text" class="form-control number-input" placeholder="Modal Awal" name="modal" value="0">
       </div>
       <div class="row">
         <div class="col-xs-8">
@@ -81,24 +81,11 @@
       var $this = $(this)
       var input = $this.val()
 
-      if (/[^0-9]+/g.test(input)) {
-        var input = input.replace(/[^0-9]+/g, "")
-        alert('hanya angka yang diperbolehkan')
-      }
-
-    //   dotString = input.match(/[.]{1}/g)
-    //   if (dotString != null && dotString.length > 1) {
-    //     input = input.replace(/[\.]/, '')
-    //   }
-
-      // input = input ? Number( input ) : 0
-      if (input.length > 1 && input.substr(0,1) == "0" && input.substr(1,1) != ".") {
-        input = input.substr(1)
-      }
-      
+      input = input.replace(/[\D\s\._\-]+/g, "")
+      input = input ? parseInt( input, 10 ) : 0
 
       $this.val(function() {
-          return (input === 0) ? "0" : input
+          return (input === 0) ? "0" : input.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       })
     })
 

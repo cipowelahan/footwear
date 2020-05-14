@@ -14,9 +14,11 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{url('dashboard/loker')}}" route="menu"><i class="fa fa-circle-o"></i>Manage Data</a></li>
-          <li><a href="{{url('dashboard/loker/kota')}}" route="menu"><i class="fa fa-circle-o"></i>Kota</a></li>
-          <li><a href="{{url('dashboard/loker/jenis')}}" route="menu"><i class="fa fa-circle-o"></i>Jenis</a></li>
+          <li><a href="{{url('dashboard/master/supplier')}}" route="menu"><i class="fa fa-circle-o"></i>Supplier</a></li>
+          <li><a href="{{url('dashboard/master/produk')}}" route="menu"><i class="fa fa-circle-o"></i>Produk</a></li>
+          <li><a href="{{url('dashboard/master/produkkategori')}}" route="menu"><i class="fa fa-circle-o"></i>Kategori Produk</a></li>
+          <li><a href="{{url('dashboard/master/assetkategori')}}" route="menu"><i class="fa fa-circle-o"></i>Kategori Asset</a></li>
+          <li><a href="{{url('dashboard/master/kaskategori')}}" route="menu"><i class="fa fa-circle-o"></i>Kategori Kas</a></li>
         </ul>
       </li>
       <li class="treeview">
@@ -40,8 +42,8 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{url('dashboard/kontak/bukutamu')}}" route="menu"><i class="fa fa-circle-o"></i>Buku Tamu</a></li>
-          <li><a href="{{url('dashboard/kontak/pengaduan')}}" route="menu"><i class="fa fa-circle-o"></i>Pengaduan</a></li>
+          <li><a href="{{url('dashboard/kas/asset')}}" route="menu"><i class="fa fa-circle-o"></i>Asset</a></li>
+          <li><a href="{{url('dashboard/kas/kas')}}" route="menu"><i class="fa fa-circle-o"></i>Kas</a></li>
         </ul>
       </li>
       <li class="treeview">

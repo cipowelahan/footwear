@@ -38,7 +38,7 @@ class CreateTableTransaksiKeuangan extends Migration
 
             $table->foreign('asset_id')
                 ->references('id')
-                ->on('m_asset')
+                ->on('tr_asset')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
         });

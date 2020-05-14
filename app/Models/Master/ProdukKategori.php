@@ -12,6 +12,18 @@ class ProdukKategori extends Model {
 
     public $timestamps = false;
 
+    public static function getRules() {
+        return [
+            'nama' => 'required'
+        ];
+    }
+
+    public static function getMessages() {
+        return [
+            'nama.required' => 'Nama Dibutuhkan'
+        ];
+    }
+
     public function produk() {
         return $this->hasMany('App\Models\Master\Produk', 'kategori_id');
     }

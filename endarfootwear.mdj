@@ -1332,7 +1332,7 @@
 									"height": 13,
 									"autoResize": false,
 									"underline": false,
-									"text": "m_asset",
+									"text": "tr_asset",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -4563,7 +4563,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFx/ntVXy8VL/M="
 					},
-					"name": "m_asset",
+					"name": "tr_asset",
 					"ownedElements": [
 						{
 							"_type": "ERDRelationship",

@@ -13,7 +13,7 @@ class CreateTableMasterAsset extends Migration
      */
     public function up()
     {
-        Schema::create('m_asset', function (Blueprint $table) {
+        Schema::create('tr_asset', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('kategori_id')->nullable();
             $table->date('tanggal')->nullable();
@@ -35,6 +35,6 @@ class CreateTableMasterAsset extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_asset');
+        Schema::dropIfExists('tr_asset');
     }
 }

@@ -11,7 +11,8 @@ class AuthSeeder extends Seeder {
             'nama' => 'admin',
             'username' => 'admin1234',
             'password' => Hash::make('admin1234'),
-            'level' => 1
+            'level' => 1,
+            'foto' => 'assets/image/profil.jpg'
         ]);  
     }
 }

@@ -27,41 +27,60 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
     Route::get('/logout', 'Dashboard\Dashboard@logout')->name('logout');
     Route::match(['get', 'post'], '/modal', 'Dashboard\Dashboard@modal')->name('dashboard.modal');
 
-    Route::group(['prefix' => 'pencarikerja'], function () {
-        Route::get('/', 'Dashboard\PencariKerja@index');
-        Route::match(['get', 'post'], '/create', 'Dashboard\PencariKerja@create');
-        Route::match(['get', 'post'], '/edit', 'Dashboard\PencariKerja@update');
-        Route::match(['get', 'post'], '/upload', 'Dashboard\PencariKerja@upload');
-        Route::post('/delete', 'Dashboard\PencariKerja@delete');
-        Route::get('/download', 'Dashboard\PencariKerja@indexDownload');
-        Route::post('/download', 'Dashboard\PencariKerja@postDownload');
-        Route::get('/send-message', 'Dashboard\PencariKerja@indexSendMessage');
-        Route::post('/send-message', 'Dashboard\PencariKerja@downloadSendMessage');
-        Route::get('/send-message/search', 'Dashboard\PencariKerja@getSendMessage');
+    Route::group(['prefix' => 'master'], function () {
+
+        Route::group(['prefix' => 'supplier'], function () {
+            Route::get('/', 'Dashboard\Master\Supplier@index');
+            Route::match(['get', 'post'], '/create', 'Dashboard\Master\Supplier@create');
+            Route::match(['get', 'post'], '/edit', 'Dashboard\Master\Supplier@update');
+            Route::post('/delete', 'Dashboard\Master\Supplier@delete');
+        });
+
+        Route::group(['prefix' => 'produk'], function () {
+            Route::get('/', 'Dashboard\Master\Produk@index');
+            Route::match(['get', 'post'], '/create', 'Dashboard\Master\Produk@create');
+            Route::match(['get', 'post'], '/edit', 'Dashboard\Master\Produk@update');
+            Route::post('/delete', 'Dashboard\Master\Produk@delete');
+        });
+
+        Route::group(['prefix' => 'produkkategori'], function () {
+            Route::get('/', 'Dashboard\Master\ProdukKategori@index');
+            Route::match(['get', 'post'], '/create', 'Dashboard\Master\ProdukKategori@create');
+            Route::match(['get', 'post'], '/edit', 'Dashboard\Master\ProdukKategori@update');
+            Route::post('/delete', 'Dashboard\Master\ProdukKategori@delete');
+        });
+
+        Route::group(['prefix' => 'kaskategori'], function () {
+            Route::get('/', 'Dashboard\Master\KasKategori@index');
+            Route::match(['get', 'post'], '/create', 'Dashboard\Master\KasKategori@create');
+            Route::match(['get', 'post'], '/edit', 'Dashboard\Master\KasKategori@update');
+            Route::post('/delete', 'Dashboard\Master\KasKategori@delete');
+        });
+
+        Route::group(['prefix' => 'assetkategori'], function () {
+            Route::get('/', 'Dashboard\Master\AssetKategori@index');
+            Route::match(['get', 'post'], '/create', 'Dashboard\Master\AssetKategori@create');
+            Route::match(['get', 'post'], '/edit', 'Dashboard\Master\AssetKategori@update');
+            Route::post('/delete', 'Dashboard\Master\AssetKategori@delete');
+        });
     });
 
-    Route::group(['prefix' => 'karyawan'], function () {
-        Route::get('/', 'Dashboard\Karyawan@index');
-        Route::match(['get', 'post'], '/create', 'Dashboard\Karyawan@create');
-        Route::match(['get', 'post'], '/edit', 'Dashboard\Karyawan@update');
-        Route::post('/delete', 'Dashboard\Karyawan@delete');
-    });
+    Route::group(['prefix' => 'kas'], function() {
 
-    Route::group(['prefix' => 'kontak'], function () {
-        Route::get('/bukutamu', 'Dashboard\Kontak@indexBukuTamu');
-        Route::get('/pengaduan', 'Dashboard\Kontak@indexPengaduan');
-        Route::post('/bukutamu/delete', 'Dashboard\Kontak@deleteBukuTamu');
-        Route::post('/pengaduan/delete', 'Dashboard\Kontak@deletePengaduan');
-        Route::post('/pengaduan/updateStatus', 'Dashboard\Kontak@updateStatusPengaduan');
-    });
+        Route::group(['prefix' => 'asset'], function () {
+            Route::get('/', 'Dashboard\Kas\Asset@index');
+            Route::match(['get', 'post'], '/create', 'Dashboard\Kas\Asset@create');
+            Route::match(['get', 'post'], '/edit', 'Dashboard\Kas\Asset@update');
+            Route::post('/delete', 'Dashboard\Kas\Asset@delete');
+        });
 
-    Route::group(['prefix' => 'loker'], function () {
-        Route::get('/', 'Dashboard\Loker@index');
-        Route::get('/kota', 'Dashboard\Loker@indexKota');
-        Route::get('/jenis', 'Dashboard\Loker@indexJenis');
-        Route::match(['get', 'post'], '/create', 'Dashboard\Loker@create');
-        Route::match(['get', 'post'], '/edit', 'Dashboard\Loker@update');
-        Route::post('/delete', 'Dashboard\Loker@delete');
+        Route::group(['prefix' => 'kas'], function () {
+            Route::get('/', 'Dashboard\Kas\Kas@index');
+            Route::match(['get', 'post'], '/create', 'Dashboard\Kas\Kas@create');
+            Route::match(['get', 'post'], '/edit', 'Dashboard\Kas\Kas@update');
+            Route::post('/delete', 'Dashboard\Kas\Kas@delete');
+        });
+
     });
 
     Route::group(['prefix' => 'profil'], function () {
