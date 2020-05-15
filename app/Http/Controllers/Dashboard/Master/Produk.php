@@ -137,4 +137,20 @@ class Produk extends Controller {
             'lastUrl' => $req->lastUrl
         ]);
     }
+
+    public function api(Request $req) {
+        $produk = ModelData::when($req->filled('search'), function($q) use ($req) {
+            $q 
+                ->orWhere('kode', 'like', '%'.$req->search.'%')
+                ->orWhere('nama', 'like', '%'.$req->search.'%');
+        })
+        ->when($req->filled('exclude'), function($q) use ($req) {
+            $exclude = explode(',', $req->exclude);
+            $q->whereNotIn('id', $exclude);
+        })
+        ->with('kategori')
+        ->orderBy('nama', 'asc')
+        ->paginate(10);
+        return response()->json($produk);
+    }
 }

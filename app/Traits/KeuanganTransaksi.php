@@ -16,7 +16,7 @@ trait KeuanganTransaksi {
             ]);
             
             Keuangan::create([
-                'asset_id' => $model->id,
+                'transaksi_id' => $model->id,
                 'tanggal' => $model->tanggal,
                 'jenis' => ($model->jenis == 'pembelian') ? 'keluar':'masuk',
                 'keterangan' => 'transaksi',

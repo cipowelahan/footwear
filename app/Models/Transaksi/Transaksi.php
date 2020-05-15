@@ -15,8 +15,20 @@ class Transaksi extends Model {
 
     public $timestamps = false;
 
+    protected $appends = [
+        'total_format'
+    ];
+
+    public function getTotalFormatAttribute() {
+        return number_format($this->total);
+    }
+
     public function tr_produk() {
         return $this->hasMany('App\Models\Transaksi\TransaksiProduk', 'transaksi_id');
+    }
+
+    public function supplier() {
+        return $this->belongsTo('App\Models\Master\Supplier', 'supplier_id');
     }
 
     public function keuangan() {

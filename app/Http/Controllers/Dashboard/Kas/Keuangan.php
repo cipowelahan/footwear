@@ -16,12 +16,14 @@ class Keuangan extends Controller {
         $keuangan = ModelData::when($req->filled('search'), function($q) use ($req) {
             $q  
                 ->orWhere('tanggal', 'like', '%'.$req->search.'%')
-                ->orWhere('jenis', 'like', '%'.$req->search.'%')
                 ->orWhere('total', 'like', '%'.$req->search.'%');
         })
         ->with(['asset.kategori', 'kas.kategori', 'transaksi'])
         ->when($req->filled('keterangan'), function($q) use ($req) {
             $q->where('keterangan', $req->keterangan);
+        })
+        ->when($req->filled('jenis'), function($q) use ($req) {
+            $q->where('jenis', $req->jenis);
         })
         ->when($req->filled('order_column'), function($q) use ($req) {
             $column = $req->order_column;

@@ -41,6 +41,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
             Route::match(['get', 'post'], '/create', 'Dashboard\Master\Produk@create');
             Route::match(['get', 'post'], '/edit', 'Dashboard\Master\Produk@update');
             Route::post('/delete', 'Dashboard\Master\Produk@delete');
+            Route::get('/ajax', 'Dashboard\Master\Produk@api')->name('produk.ajax');
         });
 
         Route::group(['prefix' => 'produkkategori'], function () {
@@ -63,6 +64,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
             Route::match(['get', 'post'], '/edit', 'Dashboard\Master\AssetKategori@update');
             Route::post('/delete', 'Dashboard\Master\AssetKategori@delete');
         });
+    });
+
+    Route::group(['prefix' => 'transaksi'], function () {
+            Route::match(['get', 'post'], '/penjualan', 'Dashboard\Transaksi\Transaksi@penjualan');
+            Route::match(['get', 'post'], '/pembelian', 'Dashboard\Transaksi\Transaksi@pembelian');
+            Route::get('/riwayat', 'Dashboard\Transaksi\Transaksi@riwayat');
+            Route::get('/riwayat/detail', 'Dashboard\Transaksi\Transaksi@detail')->name('transaksi.detail');
     });
 
     Route::group(['prefix' => 'kas'], function() {

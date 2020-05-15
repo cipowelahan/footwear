@@ -29,9 +29,9 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{url('dashboard/pencarikerja')}}" route="menu"><i class="fa fa-circle-o"></i>Manage Data</a></li>
-          <li><a href="{{url('dashboard/pencarikerja/download')}}" route="menu"><i class="fa fa-circle-o"></i>Download Data</a></li>
-          <li><a href="{{url('dashboard/pencarikerja/send-message')}}" route="menu"><i class="fa fa-circle-o"></i>Kirim SMS</a></li>
+          <li><a href="{{url('dashboard/transaksi/penjualan')}}" route="menu"><i class="fa fa-circle-o"></i>Penjualan</a></li>
+          <li><a href="{{url('dashboard/transaksi/pembelian')}}" route="menu"><i class="fa fa-circle-o"></i>Pembelian</a></li>
+          <li><a href="{{url('dashboard/transaksi/riwayat')}}" route="menu"><i class="fa fa-circle-o"></i>Riwayat</a></li>
         </ul>
       </li>
       <li class="treeview">

@@ -1,7 +1,7 @@
 <section class="content-header">
     <h1>
-        Data Keuangan Kas
-        <small>Daftar Keuangan Kas</small>
+        Data Riwayat Transaksi
+        <small>Daftar Riwayat Transaksi</small>
     </h1>
 </section>
 
@@ -47,19 +47,8 @@
                                                     <div class="col-sm-6">
                                                         <select name="jenis" class="form-control" style="width: 100%">
                                                             <option value="">Semua Jenis</option>
-                                                            <option value="masuk">Masuk</option>
-                                                            <option value="keluar">Keluar</option>
-                                                        </select>
-                                                    </div>
-                                                    <br>
-                                                    <br>
-                                                    <div class="col-sm-6">Keterangan</div>
-                                                    <div class="col-sm-6">
-                                                        <select name="keterangan" class="form-control" style="width: 100%">
-                                                            <option value="">Semua Keterangan</option>
-                                                            <option value="asset">Asset</option>
-                                                            <option value="kas">Kas</option>
-                                                            <option value="transaksi">Transaksi</option>
+                                                            <option value="pembelian">Pembelian</option>
+                                                            <option value="penjualan">Penjualan</option>
                                                         </select>
                                                     </div>
                                                     <br>
@@ -67,8 +56,10 @@
                                                     <div class="col-sm-6">Urutkan Berdasarkan</div>
                                                     <div class="col-sm-6">
                                                         <select name="order_column" class="form-control" style="width: 100%">
+                                                            <option value="id">ID</option>
                                                             <option value="tanggal">Tanggal</option>
                                                             <option value="total">Total</option>
+                                                            <option value="user">User</option>
                                                         </select>
                                                     </div>
                                                     <br>
@@ -116,25 +107,29 @@
             <table class="table table-bordered" style="width:100%">
                 <thead>
                     <tr style="background-color: #3c8dbc; color: #ffffff">
+                        <th style="width:8%">ID</th>
                         <th style="width:10%">Tanggal</th>
                         <th style="width:10%">Jenis</th>
+                        <th>Supplier</th>
                         <th>Total</th>
-                        <th style="width:20%">Keterangan</th>
-                        <th style="width:10%">Aksi</th>
+                        <th>User</th>
+                        <th style="width:15%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($keuangan as $data)
+                    @foreach($riwayat as $data)
                     <tr>
+                        <td>{{$data->id}}</td>
                         <td>{{$data->tanggal}}</td>
                         <td>{{ucfirst($data->jenis)}}</td>
+                        <td>{{@$data->supplier->nama}}</td>
                         <td>{{$data->total_format}}</td>
-                        <td>{{$data->keterangan}}</td>
+                        <td>{{$data->user}}</td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#info{{$loop->index}}">Lihat</button>
-                                {{-- <button type="button" class="btn btn-warning" data-id="{{$data->id}}">Edit</button>
-                                <button type="button" class="btn btn-danger" data-id="{{$data->id}}">Hapus</button> --}}
+                                <button type="button" class="btn btn-success" data-id="{{$data->id}}">Detail</button>
+                                {{-- <button type="button" class="btn btn-danger" data-id="{{$data->id}}">Hapus</button> --}}
                             </div>
                         </td>
                     </tr>
@@ -179,6 +174,15 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
+                                                <label>Supplier</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                {{@$data->supplier->nama}}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
                                                 <label>Total</label>
                                             </div>
                                             <div class="col-sm-9">
@@ -188,75 +192,12 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Keterangan</label>
+                                                <label>User</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{ucfirst($data->keterangan)}}
+                                                {{$data->user}}
                                             </div>
                                         </div>
-                                        <hr>
-                                        <p class="text-center">Detail @if($data->keterangan == 'transaksi') (<a href="{{route('transaksi.detail').'?id='.$data->transaksi->id}}" class="link" data-dismiss="modal">Lihat</a>) @endif</p>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>ID</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->{$data->keterangan}->id}}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Tanggal</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->{$data->keterangan}->tanggal}}
-                                            </div>
-                                        </div>
-                                        @if($data->keterangan != 'transaksi')
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Nama</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->{$data->keterangan}->nama}}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Kategori</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->{$data->keterangan}->kategori->nama}}
-                                            </div>
-                                        </div>
-                                        @endif
-                                        @if($data->keterangan != 'asset')
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Jenis</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{ucfirst($data->{$data->keterangan}->jenis)}}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Total/Harga</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->{$data->keterangan}->total_format}}
-                                            </div>
-                                        </div>
-                                        @else
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Total/Harga</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->{$data->keterangan}->harga_beli_format}}
-                                            </div>
-                                        </div>
-                                        @endif
                                     </form>
                                     <div></div>
                                 </div>
@@ -272,12 +213,11 @@
                 </tbody>
             </table>
 
-            <div class="box-tools pull-right">{{ $keuangan->appends(['search' => request()->get('search'), 
+            <div class="box-tools pull-right">{{ $riwayat->appends(['search' => request()->get('search'), 
                                                                     'order_column' => request()->get('order_column'), 
                                                                     'order' => request()->get('order'),
                                                                     'tanggal_mulai' => request()->get('tanggal_mulai'),
                                                                     'tanggal_selesai' => request()->get('tanggal_selesai'),
-                                                                    'keterangan' => request()->get('keterangan'),
                                                                     'jenis' => request()->get('jenis')])->links()}}</div>
             
         </div>
@@ -290,7 +230,6 @@
     $('[name=order_column]').val('{{request()->get('order_column', 'tanggal')}}')
     $('[name=order]').val('{{request()->get('order', 'desc')}}')
     $('[name=jenis]').val('{{request()->get('jenis')}}')
-    $('[name=keterangan]').val('{{request()->get('keterangan')}}')
 
     $('#tanggal_mulai').datepicker({
       format: 'yyyy-mm-dd',
@@ -318,14 +257,10 @@
             routeMenu('get', $(this).attr('href'))
         })
 
-        $('table tbody tr td div button.btn-warning').click(function(e) {
+        $('table tbody tr td div button.btn-success').click(function(e) {
             e.preventDefault()
             var id = $(this).attr('data-id')
-            bootbox.confirm('Yakin Mengedit ?', function(ok) {
-                if(ok) {
-                    routeMenu('get', thisPath+'/edit', { id })
-                }
-            })
+            routeMenu('get', thisPath+'/detail', { id })
         })
 
         $('table tbody tr td div button.btn-danger').click(function(e) {
@@ -344,16 +279,6 @@
                         } 
                     })
                 }
-            })
-        })
-
-        $('[class=link]').each(function() {
-            var link = $(this).attr('href')
-            $(this).click(function(e) {
-                e.preventDefault()
-                setTimeout(function() {
-                    routeMenu('get', link)
-                }, 600)
             })
         })
 

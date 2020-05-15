@@ -12,6 +12,19 @@ class TransaksiProduk extends Model {
 
     public $timestamps = false;
 
+    protected $appends = [
+        'harga_format',
+        'total_format'
+    ];
+
+    public function getHargaFormatAttribute() {
+        return number_format($this->harga);
+    }
+
+    public function getTotalFormatAttribute() {
+        return number_format($this->total);
+    }
+
     public function transaksi() {
         return $this->belongsTo('App\Models\Transaksi\Transaksi', 'transaksi_id');
     }
