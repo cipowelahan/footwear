@@ -17,9 +17,12 @@ class CreateTableTransaksiProduk extends Migration
             $table->increments('id');
             $table->unsignedInteger('transaksi_id');
             $table->unsignedInteger('produk_id')->nullable();
+            $table->string('kode_produk', 190);
+            $table->string('nama_produk', 190);
             $table->integer('jumlah');
             $table->integer('harga');
             $table->bigInteger('total');
+            $table->bigInteger('hpp');
 
             $table->foreign('transaksi_id')
                 ->references('id')

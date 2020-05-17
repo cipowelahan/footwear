@@ -14,10 +14,12 @@ class KategoriSeeder extends Seeder {
         ]);
         
         DB::table('m_kas_kategori')->insert([
-            [ 'id' => 1, 'nama' => 'Penggajian' ],
-            [ 'id' => 2, 'nama' => 'Operasional' ],
-            [ 'id' => 3, 'nama' => 'Modal' ],
-            [ 'id' => 4, 'nama' => 'Sewa' ],
+            [ 'id' => 1, 'nama' => 'Utilitas' ],
+            [ 'id' => 2, 'nama' => 'Iklan' ],
+            [ 'id' => 3, 'nama' => 'Sewa' ],
+            [ 'id' => 4, 'nama' => 'Pemeliharaan dan Perbaikan' ],
+            [ 'id' => 5, 'nama' => 'Gaji dan Upah' ],
+            [ 'id' => 6, 'nama' => 'Modal' ],
         ]);
 
         DB::table('m_asset_kategori')->insert([

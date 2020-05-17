@@ -17,7 +17,8 @@
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
-            <button id="back" type="button" class="btn btn-warning">Riwayat Transaksi</button>
+            <button id="back" type="button" class="btn btn-warning" href="{{$lastUrl}}">Kembali</button>
+            <button id="riwayat" type="button" class="btn btn-primary">Riwayat Transaksi</button>
         </div>
 
         <div class="box-body">
@@ -41,6 +42,10 @@
                             <input class="form-control" type="text" value="{{@$transaksi->supplier->nama}}" readonly>
                         </div>
                         <div class="form-group">
+                            <label class="control-label" for="total">Diskon</label>
+                            <input class="form-control" type="text" value="{{$transaksi->diskon_format}}" readonly>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label" for="total">Total</label>
                             <input class="form-control" type="text" value="{{$transaksi->total_format}}" readonly>
                         </div>
@@ -55,16 +60,18 @@
                                         <th>Harga</th>
                                         <th style="width: 10%">Jumlah</th>
                                         <th>Total</th>
+                                        <th>HPP</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($transaksi->tr_produk as $produk)
                                     <tr>
-                                        <td>{{$produk->produk->kode}}</td>
-                                        <td>{{$produk->produk->nama}}</td>
+                                        <td>{{$produk->kode_produk}}</td>
+                                        <td>{{$produk->nama_produk}}</td>
                                         <td>{{$produk->harga_format}}</td>
                                         <td>{{$produk->jumlah}}</td>
                                         <td>{{$produk->total_format}}</td>
+                                        <td>{{$produk->hpp_format}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -80,12 +87,16 @@
 
 <script>
     var thisPath = "{{request()->url()}}";
-    
 
     $(function() {
-        $('#back').click(function(e) {
+        $('#riwayat').click(function(e) {
             e.preventDefault()
             routeMenu('get', thisPath.replace('/detail', ''))
+        })
+
+        $('#back').click(function(e) {
+            e.preventDefault()
+            routeMenu('get', $(this).attr('href'))
         })
     })
 </script>

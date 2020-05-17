@@ -14,7 +14,8 @@ class TransaksiProduk extends Model {
 
     protected $appends = [
         'harga_format',
-        'total_format'
+        'total_format',
+        'hpp_format'
     ];
 
     public function getHargaFormatAttribute() {
@@ -23,6 +24,10 @@ class TransaksiProduk extends Model {
 
     public function getTotalFormatAttribute() {
         return number_format($this->total);
+    }
+
+    public function getHppFormatAttribute() {
+        return number_format($this->hpp);
     }
 
     public function transaksi() {

@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="tanggal">Tanggal</label>
                     <div class="col-sm-5">
-                        <input id="tanggal" name="tanggal" class="form-control" type="text" autocomplete="off" value="{{$asset->tanggal}}">
+                        <input id="tanggal" name="tanggal" class="form-control" type="text" autocomplete="off" value="{{$asset->tanggal}}" readonly>
                     </div>
                 </div>
                 <div class="form-group">
@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="harga_beli">Harga</label>
                     <div class="col-sm-5">
-                        <input name="harga_beli" class="form-control number-input" type="text" value="{{$asset->harga_beli_format}}">
+                        <input name="harga_beli" class="form-control number-input" type="text" value="{{$asset->harga_beli_format}}" readonly>
                     </div>
                 </div>
             </div>
@@ -74,10 +74,10 @@
 
     $('select').select2()
 
-    $('#tanggal').datepicker({
-      format: 'yyyy-mm-dd',
-      autoclose: true
-    })
+    // $('#tanggal').datepicker({
+    //   format: 'yyyy-mm-dd',
+    //   autoclose: true
+    // })
 
     function cancel() {
         event.preventDefault();

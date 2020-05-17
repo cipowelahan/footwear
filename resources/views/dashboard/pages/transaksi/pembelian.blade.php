@@ -40,6 +40,11 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label class="control-label" for="total">Diskon (Nominal)</label>
+                            <input id="diskon" class="form-control" type="text" value="0">
+                            <input name="diskon" class="form-control" type="hidden" value="0">
+                        </div>
+                        <div class="form-group">
                             <label class="control-label" for="total">Total</label>
                             <input id="total" class="form-control" type="text" readonly value="0">
                             <input name="total" class="form-control" type="hidden" value="0">
@@ -112,10 +117,14 @@
                 <td><input id="tr-jumlah-${index_transaksi}" name="produk[${index_transaksi}][jumlah]" type="text" class="form-control" value="1" onkeyup="editJumlahProduk('${index_transaksi}')"></td>
                 <td style="text-align: right" id="tr-total-${index_transaksi}">${item.harga_beli_format}</td>
                 <td><button type="button" class="btn btn-danger" onclick="hapusProduk('${index_transaksi}')"><i class="fa fa-trash"></i></button></td>
+                <input type="hidden" name="produk[${index_transaksi}][kode_produk]" value="${item.kode}">
+                <input type="hidden" name="produk[${index_transaksi}][nama_produk]" value="${item.nama}">
                 <input id="tr-produk-id-${index_transaksi}" type="hidden" name="produk[${index_transaksi}][produk_id]" value="${item.id}">
                 <input id="tr-produk-stok-${index_transaksi}" type="hidden" value="${item.stok}">
                 <input id="tr-produk-harga-${index_transaksi}" type="hidden" name="produk[${index_transaksi}][harga]" value="${item.harga_beli}">
                 <input id="tr-produk-total-${index_transaksi}" type="hidden" name="produk[${index_transaksi}][total]" value="${item.harga_beli}">
+                <input id="tr-produk-hpptemp-${index_transaksi}" type="hidden" value="${item.hpp}">
+                <input id="tr-produk-hpp-${index_transaksi}" type="hidden" name="produk[${index_transaksi}][hpp]" value="${item.hpp}">
             </tr>
         `
         $('#table-transaksi').append(template)
@@ -126,9 +135,10 @@
     }
 
     function editJumlahProduk(index) {
-        var stok, jumlah, harga, total
+        var stok, jumlah, harga, total, hpp
         jumlah = $(`#tr-jumlah-${index}`).val()
         stok = parseInt($(`#tr-produk-stok-${index}`).val())
+        hpp = parseInt($(`#tr-produk-hpptemp-${index}`).val())
 
         jumlah = jumlah.replace(/[\D\s\._\-]+/g, "")
         jumlah = jumlah ? parseInt( jumlah, 10 ) : 0
@@ -137,8 +147,10 @@
 
         harga = parseInt($(`#tr-produk-harga-${index}`).val())
         total = jumlah * harga
+        hpp = hpp * jumlah
         $(`#tr-total-${index}`).text(toCurrency(total))
         $(`#tr-produk-total-${index}`).val(total)
+        $(`#tr-produk-hpp-${index}`).val(hpp)
 
         totalTransaksi()
     }
@@ -152,11 +164,21 @@
         totalTransaksi()
     }
 
-    function totalTransaksi() {
+    function totalProduk() {
         var sum = 0
         $("[id*='tr-produk-total']").each(function() {
             sum += parseInt($(this).val())
         })
+        return sum
+    }
+
+    function totalTransaksi() {
+        var sum, diskon
+
+        sum = totalProduk()
+        diskon = parseInt($('[name=diskon]').val())
+        sum -= diskon
+
         $('#total').val(toCurrency(sum))
         $('[name=total]').val(sum)
     }
@@ -236,6 +258,28 @@
             var selectedProduk = $('#produk').select2('data')[0].item
             pilihProduk(selectedProduk)
             $('#produk').val(null).trigger('change')
+        })
+
+        $('#diskon').keyup(function(e) {
+            if ( $.inArray( e.keyCode, [38,40,37,39] ) !== -1 ) {
+                return
+            }
+
+            var input = $(this).val()
+            input = input.replace(/[\D\s\._\-]+/g, "")
+            input = input ? parseInt( input, 10 ) : 0
+
+            var total = totalProduk()
+
+            if (input > total) {
+                bootbox.alert('Nilai Diskon Melebihi Total Transaksi')
+                input = total
+            } 
+
+            $(this).val((input === 0) ? "0" : input.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'))
+            $('[name=diskon]').val(input)
+
+            totalTransaksi()
         })
         
     })

@@ -18,6 +18,7 @@ class CreateTableMasterTransaksi extends Migration
             $table->unsignedInteger('supplier_id')->nullable();
             $table->date('tanggal');
             $table->enum('jenis', ['penjualan', 'pembelian'])->default('penjualan');
+            $table->bigInteger('diskon')->default(0);
             $table->bigInteger('total')->default(0);
             $table->string('user', 190)->nullable();
 

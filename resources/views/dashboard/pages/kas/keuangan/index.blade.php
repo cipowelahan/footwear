@@ -352,7 +352,9 @@
             $(this).click(function(e) {
                 e.preventDefault()
                 setTimeout(function() {
-                    routeMenu('get', link)
+                    routeMenu('get', link, {
+                        lastUrl: "{{urlencode(request()->fullUrl())}}"
+                    })
                 }, 600)
             })
         })

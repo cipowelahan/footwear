@@ -37,6 +37,7 @@ class Transaksi extends Controller {
             $transaksi = ModelData::create([
                 'jenis' => $jenis,
                 'tanggal' => $req->tanggal,
+                'diskon' => $req->diskon,
                 'total' => $req->total,
                 'user' => auth()->user()->nama
             ]);
@@ -70,6 +71,7 @@ class Transaksi extends Controller {
                 'supplier_id' => $req->supplier_id,
                 'jenis' => $jenis,
                 'tanggal' => $req->tanggal,
+                'diskon' => $req->diskon,
                 'total' => $req->total,
                 'user' => auth()->user()->nama
             ]);
@@ -119,6 +121,7 @@ class Transaksi extends Controller {
 
     public function detail(Request $req) {
         $transaksi = ModelData::with(['supplier', 'tr_produk.produk'])->find($req->id);
-        return view('dashboard.pages.transaksi.detail', compact('transaksi'));
+        $lastUrl = urldecode($req->lastUrl) ?? $req->fullUrl();
+        return view('dashboard.pages.transaksi.detail', compact('transaksi', 'lastUrl'));
     }
 }

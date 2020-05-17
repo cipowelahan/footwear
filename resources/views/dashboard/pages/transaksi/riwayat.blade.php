@@ -183,6 +183,15 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
+                                                <label>Diskon</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                {{$data->diskon_format}}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
                                                 <label>Total</label>
                                             </div>
                                             <div class="col-sm-9">
@@ -260,7 +269,10 @@
         $('table tbody tr td div button.btn-success').click(function(e) {
             e.preventDefault()
             var id = $(this).attr('data-id')
-            routeMenu('get', thisPath+'/detail', { id })
+            routeMenu('get', thisPath+'/detail', { 
+                id,
+                lastUrl: "{{urlencode(request()->fullUrl())}}"
+            })
         })
 
         $('table tbody tr td div button.btn-danger').click(function(e) {

@@ -16,8 +16,13 @@ class Transaksi extends Model {
     public $timestamps = false;
 
     protected $appends = [
+        'diskon_format',
         'total_format'
     ];
+
+    public function getDiskonFormatAttribute() {
+        return number_format($this->diskon);
+    }
 
     public function getTotalFormatAttribute() {
         return number_format($this->total);

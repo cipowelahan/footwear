@@ -13,7 +13,8 @@ class Produk extends Model {
 
     protected $appends = [
         'harga_beli_format',
-        'harga_jual_format'
+        'harga_jual_format',
+        'hpp'
     ];
 
     public static function getRules($id = 0) {
@@ -53,6 +54,10 @@ class Produk extends Model {
 
     public function getHargaJualFormatAttribute() {
         return number_format($this->harga_jual);
+    }
+
+    public function getHppAttribute() {
+        return $this->harga_beli;
     }
 
     public function kategori() {
