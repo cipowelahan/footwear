@@ -95,6 +95,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
 
     });
 
+    Route::group(['prefix' => 'laporan'], function () {
+        
+        Route::match(['get', 'post'], '/laba-rugi', 'Dashboard\Laporan\Laporan@labarugi');
+        Route::match(['get', 'post'], '/perubahan-ekuitas', 'Dashboard\Laporan\Laporan@perubahanekuitas');
+        Route::match(['get', 'post'], '/neraca', 'Dashboard\Laporan\Laporan@neraca');
+    });
+
     Route::group(['prefix' => 'profil'], function () {
         Route::match(['get', 'post'], '/', 'Dashboard\Profil@profil');
         Route::match(['get', 'post'], '/password', 'Dashboard\Profil@password');
@@ -102,7 +109,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', 'Dashboard\User@index');
-        Route::get('/role', 'Dashboard\User@indexRole');
         Route::match(['get', 'post'], '/create', 'Dashboard\User@create');
         Route::match(['get', 'post'], '/edit', 'Dashboard\User@update');
         Route::post('/delete', 'Dashboard\User@delete');

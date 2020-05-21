@@ -17,7 +17,8 @@ class Transaksi extends Model {
 
     protected $appends = [
         'diskon_format',
-        'total_format'
+        'total_format',
+        'total_hpp_format'
     ];
 
     public function getDiskonFormatAttribute() {
@@ -26,6 +27,10 @@ class Transaksi extends Model {
 
     public function getTotalFormatAttribute() {
         return number_format($this->total);
+    }
+
+    public function getTotalHppFormatAttribute() {
+        return number_format($this->total_hpp);
     }
 
     public function tr_produk() {
@@ -37,7 +42,7 @@ class Transaksi extends Model {
     }
 
     public function keuangan() {
-        return $this->hasMany('App\Models\Transaksi\Keuangan', 'transaksi_id');
+        return $this->hasOne('App\Models\Transaksi\Keuangan', 'transaksi_id');
     }
 
 }

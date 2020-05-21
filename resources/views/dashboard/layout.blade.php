@@ -11,7 +11,7 @@
   <title>ENDAR FOOT WEAR - Dashboard</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-  <link rel="shortcut icon" href="{{asset('favicon.ico')}}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{asset('public/favicon.ico')}}" type="image/x-icon">
 
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/bootstrap-datepicker.min.css')}}">

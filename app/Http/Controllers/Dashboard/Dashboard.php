@@ -47,7 +47,7 @@ class Dashboard extends Controller {
 
         Kas::create([
             'tanggal' => $req->tanggal,
-            'kategori_id' => 6,
+            'kategori_id' => 8,
             'jenis' => 'pemasukan',
             'nama' => 'Modal Awal',
             'total' => $req->modal

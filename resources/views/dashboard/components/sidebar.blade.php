@@ -55,7 +55,10 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{url('dashboard/karyawan')}}" route="menu"><i class="fa fa-circle-o"></i>Manage Data</a></li>
+          <li><a href="{{url('dashboard/laporan/buku-besar')}}" route="menu"><i class="fa fa-circle-o"></i>Buku Besar</a></li>
+          <li><a href="{{url('dashboard/laporan/laba-rugi')}}" route="menu"><i class="fa fa-circle-o"></i>Laba Rugi</a></li>
+          <li><a href="{{url('dashboard/laporan/perubahan-ekuitas')}}" route="menu"><i class="fa fa-circle-o"></i>Perubahan Ekuitas</a></li>
+          <li><a href="{{url('dashboard/laporan/neraca')}}" route="menu"><i class="fa fa-circle-o"></i>Neraca</a></li>
         </ul>
       </li>
       <li class="treeview">
@@ -78,7 +81,6 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{url('dashboard/user/role')}}" route="menu"><i class="fa fa-circle-o"></i>Roles</a></li>
           <li><a href="{{url('dashboard/user')}}" route="menu"><i class="fa fa-circle-o"></i>Users</a></li>
         </ul>
       </li>

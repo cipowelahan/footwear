@@ -18,18 +18,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="kelamin">Kelamin</label>
+                    <label class="col-sm-2 control-label" for="email">Username</label>
                     <div class="col-sm-5">
-                        <select name="kelamin" class="form-control">
-                            <option value="L">Laki - Laki</option>
-                            <option value="P">Perempuan</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="email">Email</label>
-                    <div class="col-sm-5">
-                        <input type="email" name="email" placeholder="Email" class="form-control">
+                        <input type="text" name="username" placeholder="Username" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -39,25 +30,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="nama_perusahaan">Nama Perusahaan</label>
+                    <label class="col-sm-2 control-label" for="nama_perusahaan">No HP</label>
                     <div class="col-sm-5">
-                        <input type="text" name="nama_perusahaan" placeholder="Nama Perusahaan" class="form-control">
+                        <input type="text" name="no_hp" placeholder="No HP" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="kontak">Kontak</label>
+                    <label class="col-sm-2 control-label" for="kontak">Alamat</label>
                     <div class="col-sm-5">
-                        <input type="text" name="kontak" placeholder="Kontak" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="role_id">Role</label>
-                    <div class="col-sm-5">
-                        <select name="role_id" class="form-control">
-                            @foreach($role as $r)
-                            <option value="{{$r->id}}">{{$r->nama}}</option>
-                            @endforeach
-                        </select>
+                        <textarea name="alamat" class="form-control" placeholder="Alamat"></textarea>
                     </div>
                 </div>
             </div>

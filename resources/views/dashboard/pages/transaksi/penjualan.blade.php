@@ -39,6 +39,7 @@
                             <label class="control-label" for="total">Total</label>
                             <input id="total" class="form-control" type="text" readonly value="0">
                             <input name="total" class="form-control" type="hidden" value="0">
+                            <input name="total_hpp" class="form-control" type="hidden" value="0">
                         </div>
                     </div>
                     <div class="col-sm-8">
@@ -161,18 +162,30 @@
         $("[id*='tr-produk-total']").each(function() {
             sum += parseInt($(this).val())
         })
+        console.log(sum)
+        return sum
+    }
+
+    function totalHppProduk() {
+        var sum = 0
+        $("[id*='tr-produk-hpp-']").each(function() {
+            sum += parseInt($(this).val())
+        })
+        console.log(sum)
         return sum
     }
 
     function totalTransaksi() {
-        var sum, diskon
+        var sum, diskon, hpp
 
         sum = totalProduk()
         diskon = parseInt($('[name=diskon]').val())
         sum -= diskon
+        hpp = totalHppProduk()
 
         $('#total').val(toCurrency(sum))
         $('[name=total]').val(sum)
+        $('[name=total_hpp]').val(hpp)
     }
 
     function submitTransaksi() {

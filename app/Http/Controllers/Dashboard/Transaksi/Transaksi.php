@@ -39,6 +39,7 @@ class Transaksi extends Controller {
                 'tanggal' => $req->tanggal,
                 'diskon' => $req->diskon,
                 'total' => $req->total,
+                'total_hpp' => $req->total_hpp,
                 'user' => auth()->user()->nama
             ]);
 
@@ -73,6 +74,7 @@ class Transaksi extends Controller {
                 'tanggal' => $req->tanggal,
                 'diskon' => $req->diskon,
                 'total' => $req->total,
+                'total_hpp' => $req->total_hpp,
                 'user' => auth()->user()->nama
             ]);
 

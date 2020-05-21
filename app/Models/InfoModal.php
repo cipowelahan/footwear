@@ -10,11 +10,6 @@ class InfoModal extends Model {
 
     protected $guarded = [];
 
-    protected $casts = [
-        'modal' => 'integer',
-        'kas' => 'integer'
-    ];
-
     protected $appends = [
         'modal_format',
         'kas_format'

@@ -45,7 +45,7 @@ class Kas extends Model {
     }
 
     public function keuangan() {
-        return $this->hasMany('App\Models\Transaksi\Keuangan', 'kas_id');
+        return $this->hasOne('App\Models\Transaksi\Keuangan', 'kas_id');
     }
 
 }

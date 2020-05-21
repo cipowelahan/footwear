@@ -20,6 +20,7 @@ class CreateTableMasterTransaksi extends Migration
             $table->enum('jenis', ['penjualan', 'pembelian'])->default('penjualan');
             $table->bigInteger('diskon')->default(0);
             $table->bigInteger('total')->default(0);
+            $table->bigInteger('total_hpp')->default(0);
             $table->string('user', 190)->nullable();
 
             $table->foreign('supplier_id')

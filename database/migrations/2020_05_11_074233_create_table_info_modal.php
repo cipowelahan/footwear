@@ -15,8 +15,8 @@ class CreateTableInfoModal extends Migration
     {
         Schema::create('info_modal', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('modal', 190)->default(0);
-            $table->string('kas', 190)->default(0);
+            $table->bigInteger('modal')->default(0);
+            $table->bigInteger('kas')->default(0);
         });
     }
 

@@ -49,6 +49,10 @@
                             <label class="control-label" for="total">Total</label>
                             <input class="form-control" type="text" value="{{$transaksi->total_format}}" readonly>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label" for="total">Total HPP</label>
+                            <input class="form-control" type="text" value="{{$transaksi->total_hpp_format}}" readonly>
+                        </div>
                     </div>
                     <div class="col-sm-8">
                         <div class="table-responsive">

@@ -36,10 +36,9 @@
                     <tr style="background-color: #3c8dbc; color: #ffffff">
                         <th>ID</th>
                         <th>Nama</th>
-                        <th>Email</th>
-                        <th>Kontak</th>
-                        <th>Nama Perusahaan</th>
-                        <th>Role</th>
+                        <th>Username</th>
+                        <th>No HP</th>
+                        <th>Alamat</th>
                         <th style="width:20%">Aksi</th>
                     </tr>
                 </thead>
@@ -48,10 +47,9 @@
                     <tr>
                         <td>{{$data->id}}</td>
                         <td>{{$data->nama}}</td>
-                        <td>{{$data->email}}</td>
-                        <td>{{$data->kontak}}</td>
-                        <td>{{$data->nama_perusahaan}}</td>
-                        <td>{{$data->role->nama}}</td>
+                        <td>{{$data->username}}</td>
+                        <td>{{$data->no_hp}}</td>
+                        <td>{{$data->alamat}}</td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#info{{$loop->index}}">Lihat</button>
@@ -83,6 +81,15 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
+                                                <label>Foto</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <img src="{{asset('public/'.$data->foto)}}" class="img-thumbnail">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
                                                 <label>Nama</label>
                                             </div>
                                             <div class="col-sm-9">
@@ -92,46 +99,28 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Kelamin</label>
+                                                <label>Username</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->kelamin}}
+                                                {{$data->username}}
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Email</label>
+                                                <label>No HP</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->email}}
+                                                {{$data->no_hp}}
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-sm-3 text-right">
-                                                <label>Nama Perusahaan</label>
+                                                <label>Alamat</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->nama_perusahaan}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Kontak</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->kontak}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-sm-3 text-right">
-                                                <label>Role</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                {{$data->role->nama}}
+                                                {{$data->alamat}}
                                             </div>
                                         </div>
                                     </form>

@@ -45,6 +45,6 @@ class Asset extends Model {
     }
 
     public function keuangan() {
-        return $this->hasMany('App\Models\Transaksi\Keuangan', 'asset_id');
+        return $this->hasOne('App\Models\Transaksi\Keuangan', 'asset_id');
     }
 }
