@@ -15,6 +15,13 @@ Route::get('/', function() {
     return redirect()->route('dashboard');
 });
 
+Route::get('/migrate123', function() {
+    Artisan::call('migrate:refresh', [
+        '--seed' => true,
+    ]);
+    return redirect()->route('login');
+});
+
 Route::group(['prefix' => 'auth', 'middleware' => 'guest'], function() {
     Route::match(['get', 'post'], '/login', 'Dashboard\Dashboard@login')->name('login');
     // Route::match(['get', 'post'], '/register', 'Dashboard\Dashboard@register')->name('register');
