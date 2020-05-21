@@ -62,7 +62,7 @@
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    function getLabaRugi(tanggal) {
+    function getPerubahanEkuitas(tanggal) {
         loader('show')
         $.ajax({
             method: 'post',
@@ -85,7 +85,7 @@
     $(function() {
         $('[name=tanggal]').change(function(e) {
             e.preventDefault()
-            getLabaRugi($(this).val())
+            getPerubahanEkuitas($(this).val())
         })
     })
 

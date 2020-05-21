@@ -104,7 +104,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
     });
 
     Route::group(['prefix' => 'laporan'], function () {
-        
+        Route::get('/buku-besar', 'Dashboard\Laporan\Laporan@bukubesar');
         Route::match(['get', 'post'], '/laba-rugi', 'Dashboard\Laporan\Laporan@labarugi');
         Route::match(['get', 'post'], '/perubahan-ekuitas', 'Dashboard\Laporan\Laporan@perubahanekuitas');
         Route::match(['get', 'post'], '/neraca', 'Dashboard\Laporan\Laporan@neraca');

@@ -13,11 +13,16 @@ class Keuangan extends Model {
     public $timestamps = false;
 
     protected $appends = [
-        'total_format'
+        'total_format',
+        'sisa_kas_format'
     ];
 
     public function getTotalFormatAttribute() {
         return number_format($this->total);
+    }
+
+    public function getSisaKasFormatAttribute() {
+        return number_format($this->sisa_kas);
     }
 
     public function asset() {

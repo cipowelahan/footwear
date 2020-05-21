@@ -108,5 +108,25 @@ class LaporanService {
     public function getNeraca($tahun_bulan) {
         $labaakhir = $this->getPerubahanEkuitas($tahun_bulan);
         $infoModal = InfoModal::first();
+        $transaksi = Transaksi::where('tanggal', 'like', "%$tahun_bulan%")->where('jenis', 'pembelian')->get();
+
+        $kas = $infoModal->kas;
+        $pembelian = ($transaksi->isNotEmpty()) ? $transaksi->sum('total') : 0 ;
+        $aktiva = $kas + $pembelian;
+
+        $modal = $infoModal->modal;
+        $laba_rugi_akhir = $labaakhir['laba_rugi_akhir'];
+        $pasiva = $modal + $laba_rugi_akhir;
+
+        $data = [
+            'kas' => $kas,
+            'pembelian' => $pembelian,
+            'aktiva' => $aktiva,
+            'modal' => $modal,
+            'laba_rugi_akhir' => $laba_rugi_akhir,
+            'pasiva' => $pasiva
+        ];
+
+        return $data;
     }
 }
