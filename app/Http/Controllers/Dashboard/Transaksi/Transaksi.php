@@ -116,6 +116,7 @@ class Transaksi extends Controller {
         ->when($req->filled('tanggal_selesai'), function($q) use ($req) {
             $q->where('tanggal', '<=', $req->tanggal_selesai);
         })
+        ->orderBy('id', 'desc')
         ->paginate(10);
 
         return view('dashboard.pages.transaksi.riwayat', compact('riwayat'));

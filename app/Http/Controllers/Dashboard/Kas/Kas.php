@@ -38,6 +38,7 @@ class Kas extends Controller {
         }, function($q) {
             $q->orderBy('tanggal', 'desc');
         })
+        ->orderBy('id', 'desc')
         ->paginate(10);
         return view('dashboard.pages.kas.kas.index', compact('kas'));
     }
