@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\InfoModal;
 use App\Models\User;
 use App\Models\Transaksi\Kas;
-use Hash;
+use DB, Hash;
 
 class Dashboard extends Controller {
 
@@ -114,5 +114,46 @@ class Dashboard extends Controller {
     public function logout(Request $req) {
         Auth::logout();
         return redirect()->route('login');
+    }
+
+    public function resetData() {
+        $tables = [
+            'info_modal', 'tr_keuangan', 'tr_transaksi',
+            'tr_kas', 'tr_asset', 'm_produk', 'm_supplier'
+        ];
+
+        foreach ($tables as $table) {
+            DB::table($table)->delete();
+            DB::statement("ALTER TABLE $table AUTO_INCREMENT = 1");
+        }
+
+        $ignore = ['.', '..', '.gitignore'];
+        $publicImages = scandir(public_path('images'));
+
+        foreach ($ignore as $i) {
+            if (($key = array_search($i, $publicImages)) !== false) {
+                unset($publicImages[$key]);
+            }
+        }
+
+        foreach ($publicImages as $img_dir) {
+            $this->delete_files(public_path('images/'.$img_dir));
+        }
+
+        return redirect()->route('dashboard');
+    }
+
+    private function delete_files($target) {
+        if(is_dir($target)){
+            $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+
+            foreach( $files as $file ){
+                $this->delete_files( $file );      
+            }
+
+            @rmdir( $target );
+        } elseif(is_file($target)) {
+            @unlink( $target );  
+        }
     }
 }

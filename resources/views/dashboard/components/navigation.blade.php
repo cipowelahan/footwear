@@ -17,12 +17,12 @@
 
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
-        {{-- <li class="dropdown">
-          <a href="{{route('homepage')}}">
-            <i class="fa fa-globe"></i>
-            Kunjungi Situs  
+        <li class="dropdown">
+          <a href="{{route('reset')}}">
+            <i class="fa fa-refresh"></i>
+            Reset Data  
           </a>
-        </li> --}}
+        </li>
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img id="profil-foto-head" src="{{asset('public/'.auth()->user()->foto)}}" class="user-image" alt="User Image">

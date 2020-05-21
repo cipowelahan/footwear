@@ -25,6 +25,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
     Route::get('/main', 'Dashboard\Dashboard@main');
     Route::post('/error', 'Dashboard\Dashboard@error');
     Route::get('/logout', 'Dashboard\Dashboard@logout')->name('logout');
+    Route::get('/reset', 'Dashboard\Dashboard@resetData')->name('reset');
     Route::match(['get', 'post'], '/modal', 'Dashboard\Dashboard@modal')->name('dashboard.modal');
 
     Route::group(['prefix' => 'master'], function () {
