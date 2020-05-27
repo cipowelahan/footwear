@@ -33,9 +33,13 @@
                                 <th style="width: 40%">Kas</th>
                                 <td id="kas">0</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <th>Pembelian</th>
                                 <td id="pembelian">0</td>
+                            </tr> --}}
+                            <tr>
+                                <th>Asset</th>
+                                <td id="asset">0</td>
                             </tr>
                             <tr>
                                 <th>Total</th>

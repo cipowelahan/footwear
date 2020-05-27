@@ -131,7 +131,7 @@
         jumlah = jumlah.replace(/[\D\s\._\-]+/g, "")
         jumlah = jumlah ? parseInt( jumlah, 10 ) : 0
 
-        if (jumlah >= stok) {
+        if (jumlah > stok) {
             bootbox.alert('Melebihi Stok')
             jumlah = stok
         }

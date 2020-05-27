@@ -25,8 +25,8 @@ class KategoriSeeder extends Seeder {
         ]);
 
         DB::table('m_asset_kategori')->insert([
-            [ 'id' => 1, 'nama' => 'Kendaraan' ],
-            [ 'id' => 2, 'nama' => 'Peralatan' ],
+            [ 'id' => 1, 'nama' => 'Peralatan' ],
+            [ 'id' => 2, 'nama' => 'Bangunan' ],
         ]);
     }
 }

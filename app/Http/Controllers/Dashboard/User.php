@@ -70,11 +70,14 @@ class User extends Controller {
 
     public function delete(Request $req) {
         $user = ModelData::find($req->id);
+        $foto = $user->foto;
         $user->delete();
 
         if ($req->id == auth()->id()) {
             auth()->logout();
         }
+
+        if (strpos('assets', $foto) !== false) @unlink(public_path().'/'.$foto);
 
         return response()->json([
             'succes' => true,

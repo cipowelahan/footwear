@@ -108,11 +108,17 @@ class LaporanService {
     public function getNeraca($tahun_bulan) {
         $labaakhir = $this->getPerubahanEkuitas($tahun_bulan);
         $infoModal = InfoModal::first();
-        $transaksi = Transaksi::where('tanggal', 'like', "%$tahun_bulan%")->where('jenis', 'pembelian')->get();
+        // $transaksi = Transaksi::where('tanggal', 'like', "%$tahun_bulan%")->where('jenis', 'pembelian')->get();
 
-        $kas = $infoModal->kas;
-        $pembelian = ($transaksi->isNotEmpty()) ? $transaksi->sum('total') : 0 ;
-        $aktiva = $kas + $pembelian;
+        $kas = $this->getKas($tahun_bulan);
+        // $pembelian = ($transaksi->isNotEmpty()) ? $transaksi->sum('total') : 0 ;
+
+        // $tr_asset = Keuangan::where('tanggal', 'like', "%$tahun_bulan%")->where('keterangan', 'asset')->get();
+        // $asset = ($tr_asset->isNotEmpty()) ? $tr_asset->sum('total') : 0 ;
+        $asset = $this->hitungAsset($tahun_bulan);
+
+        // $aktiva = $kas + $pembelian + $asset;
+        $aktiva = $kas + $asset;
 
         $modal = $infoModal->modal;
         $laba_rugi_akhir = $labaakhir['laba_rugi_akhir'];
@@ -120,7 +126,8 @@ class LaporanService {
 
         $data = [
             'kas' => $kas,
-            'pembelian' => $pembelian,
+            // 'pembelian' => $pembelian,
+            'asset' => $asset,
             'aktiva' => $aktiva,
             'modal' => $modal,
             'laba_rugi_akhir' => $laba_rugi_akhir,
@@ -128,5 +135,49 @@ class LaporanService {
         ];
 
         return $data;
+    }
+
+    private function hitungAsset($tahun_bulan) {
+        $tanggal = $this->colllectRangeTanggal($tahun_bulan);
+        $tr_asset = Keuangan::where('keterangan', 'asset')->where(function($q) use ($tanggal) {
+            foreach ($tanggal as $d) {
+                $q->orWhere('tanggal', 'like', "%$d%");
+            }
+        });
+
+        return $tr_asset->sum('total');
+    }
+
+    private function colllectRangeTanggal($tahun_bulan) {
+        $allTanggal = $this->collectTanggal();
+        $indexSearch = array_search($tahun_bulan, array_column($allTanggal, 'tahun_bulan'));
+        $newTanggal = [];
+
+        for ($i = $indexSearch; $i < count($allTanggal) ; $i++) { 
+            array_push($newTanggal, $allTanggal[$i]['tahun_bulan']);
+        }
+
+        return $newTanggal;
+    }
+
+    private function processSum($jenis, array $data) {
+        $keuangan = Keuangan::where('jenis', $jenis)->where(function($q) use ($data) {
+            foreach ($data as $d) {
+                $q->orWhere('tanggal', 'like', "%$d%");
+            }
+        });
+
+        return $keuangan->sum('total');
+    }
+
+    private function sumKas($tahun_bulan) {
+        $tanggal = $this->colllectRangeTanggal($tahun_bulan);
+        $masuk = $this->processSum('masuk', $tanggal);
+        $keluar = $this->processSum('keluar', $tanggal);
+        return $masuk - $keluar;
+    }
+
+    public function getKas($tahun_bulan) {
+        return $this->sumKas($tahun_bulan);
     }
 }

@@ -10,7 +10,7 @@
         <div class="box-header with-border">
             <div class="row">
                 <div class="col-sm-6">
-                    {{-- <button type="button" id="btn-create" class="btn btn-success">Tambah Data</button> --}}
+                    <button type="button" id="btn-create" class="btn btn-success">Tambah Data</button>
                 </div>
 
                 <div class="col-sm-6">
@@ -105,8 +105,8 @@
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#info{{$loop->index}}">Lihat</button>
-                                {{-- <button type="button" class="btn btn-warning" data-id="{{$data->id}}">Edit</button>
-                                <button type="button" class="btn btn-danger" data-id="{{$data->id}}">Hapus</button> --}}
+                                <button type="button" class="btn btn-warning" data-id="{{$data->id}}">Edit</button>
+                                <button type="button" class="btn btn-danger" data-id="{{$data->id}}">Hapus</button>
                             </div>
                         </td>
                     </tr>

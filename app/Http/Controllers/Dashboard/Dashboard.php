@@ -119,7 +119,8 @@ class Dashboard extends Controller {
     public function resetData() {
         $tables = [
             'info_modal', 'tr_keuangan', 'tr_transaksi',
-            'tr_kas', 'tr_asset', 'm_produk', 'm_supplier'
+            'tr_kas', 'tr_asset', 
+            // 'm_produk', 'm_supplier'
         ];
 
         foreach ($tables as $table) {
@@ -127,18 +128,18 @@ class Dashboard extends Controller {
             DB::statement("ALTER TABLE $table AUTO_INCREMENT = 1");
         }
 
-        $ignore = ['.', '..', '.gitignore'];
-        $publicImages = scandir(public_path('images'));
+        // $ignore = ['.', '..', '.gitignore'];
+        // $publicImages = scandir(public_path('images'));
 
-        foreach ($ignore as $i) {
-            if (($key = array_search($i, $publicImages)) !== false) {
-                unset($publicImages[$key]);
-            }
-        }
+        // foreach ($ignore as $i) {
+        //     if (($key = array_search($i, $publicImages)) !== false) {
+        //         unset($publicImages[$key]);
+        //     }
+        // }
 
-        foreach ($publicImages as $img_dir) {
-            $this->delete_files(public_path('images/'.$img_dir));
-        }
+        // foreach ($publicImages as $img_dir) {
+        //     $this->delete_files(public_path('images/'.$img_dir));
+        // }
 
         return redirect()->route('dashboard');
     }
