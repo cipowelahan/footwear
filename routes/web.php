@@ -15,7 +15,7 @@ Route::get('/', function() {
     return redirect()->route('dashboard');
 });
 
-Route::get('/migrate123', function() {
+Route::get('/refresh-migration', function() {
     Artisan::call('migrate:refresh', [
         '--seed' => true,
     ]);
