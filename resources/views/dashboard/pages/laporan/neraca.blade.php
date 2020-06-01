@@ -38,6 +38,10 @@
                                 <td id="pembelian">0</td>
                             </tr> --}}
                             <tr>
+                                <th>Persediaan</th>
+                                <td id="persediaan">0</td>
+                            </tr>
+                            <tr>
                                 <th>Asset</th>
                                 <td id="asset">0</td>
                             </tr>

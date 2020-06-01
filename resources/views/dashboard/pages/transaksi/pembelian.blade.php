@@ -39,11 +39,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label class="control-label" for="total">Diskon (Nominal)</label>
                             <input id="diskon" class="form-control" type="text" value="0">
                             <input name="diskon" class="form-control" type="hidden" value="0">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label class="control-label" for="total">Total</label>
                             <input id="total" class="form-control" type="text" readonly value="0">
@@ -185,8 +185,8 @@
         var sum, diskon, hpp
 
         sum = totalProduk()
-        diskon = parseInt($('[name=diskon]').val())
-        sum -= diskon
+        // diskon = parseInt($('[name=diskon]').val())
+        // sum -= diskon
         hpp = totalHppProduk()
 
         $('#total').val(toCurrency(sum))

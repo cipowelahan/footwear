@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/font-awesome.min.css')}}">
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/AdminLTE.min.css')}}">
+  <link rel="shortcut icon" href="{{asset('public/favicon.ico')}}" type="image/x-icon">
 
 </head>
 <body class="hold-transition login-page">

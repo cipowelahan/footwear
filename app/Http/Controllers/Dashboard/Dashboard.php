@@ -128,6 +128,8 @@ class Dashboard extends Controller {
             DB::statement("ALTER TABLE $table AUTO_INCREMENT = 1");
         }
 
+        DB::table('m_produk')->update(['stok' => 0]);
+
         // $ignore = ['.', '..', '.gitignore'];
         // $publicImages = scandir(public_path('images'));
 

@@ -72,7 +72,7 @@ class Transaksi extends Controller {
                 'supplier_id' => $req->supplier_id,
                 'jenis' => $jenis,
                 'tanggal' => $req->tanggal,
-                'diskon' => $req->diskon,
+                // 'diskon' => $req->diskon,
                 'total' => $req->total,
                 'total_hpp' => $req->total_hpp,
                 'user' => auth()->user()->nama

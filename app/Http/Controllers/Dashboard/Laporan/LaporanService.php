@@ -38,6 +38,7 @@ class LaporanService {
 
         $penjualan = ($transaksi->isNotEmpty()) ? $transaksi->sum('total') : 0 ;
         $potongan_penjualan = ($transaksi->isNotEmpty()) ? $transaksi->sum('diskon') : 0 ;
+        $penjualan = $penjualan + $potongan_penjualan;
         $penjualan_bersih = $penjualan - $potongan_penjualan;
         $hpp = ($transaksi->isNotEmpty()) ? $transaksi->sum('total_hpp') : 0 ;
         $laba_kotor = $penjualan_bersih - $hpp;
@@ -80,12 +81,27 @@ class LaporanService {
         return $data;
     }
 
+    private function labaDitahanAwal($tahun_bulan) {
+        $labaawal = 0;
+        $tanggal = $this->colllectRangeTanggal($tahun_bulan);
+
+        foreach ($tanggal as $t) {
+            $labarugi = $this->getLabaRugi($t);
+            $labaawal += $labarugi['laba_bersih'];
+        }
+
+        return [
+            'laba_bersih' => $labaawal
+        ];
+    }
+
     public function getPerubahanEkuitas($tahun_bulan) {
         $tanggal = $tahun_bulan;
         $labarugisekarang = $this->getLabaRugi($tanggal);
 
         $tanggal_lalu = $this->getBulanLalu($tanggal);
-        $labarugilalu = $this->getLabaRugi($tanggal_lalu);
+        // $labarugilalu = $this->getLabaRugi($tanggal_lalu);
+        $labarugilalu = $this->labaDitahanAwal($tanggal_lalu);
 
         $labarugitersedia = $labarugilalu['laba_bersih'] + $labarugisekarang['laba_bersih'];
 
@@ -107,7 +123,6 @@ class LaporanService {
 
     public function getNeraca($tahun_bulan) {
         $labaakhir = $this->getPerubahanEkuitas($tahun_bulan);
-        $infoModal = InfoModal::first();
         // $transaksi = Transaksi::where('tanggal', 'like', "%$tahun_bulan%")->where('jenis', 'pembelian')->get();
 
         $kas = $this->getKas($tahun_bulan);
@@ -115,18 +130,20 @@ class LaporanService {
 
         // $tr_asset = Keuangan::where('tanggal', 'like', "%$tahun_bulan%")->where('keterangan', 'asset')->get();
         // $asset = ($tr_asset->isNotEmpty()) ? $tr_asset->sum('total') : 0 ;
+        $persediaan = $this->hitungPersediaan($tahun_bulan);
         $asset = $this->hitungAsset($tahun_bulan);
 
         // $aktiva = $kas + $pembelian + $asset;
-        $aktiva = $kas + $asset;
+        $aktiva = $kas + $persediaan + $asset;
 
-        $modal = $infoModal->modal;
+        $modal = $this->hitungModal($tahun_bulan);
         $laba_rugi_akhir = $labaakhir['laba_rugi_akhir'];
         $pasiva = $modal + $laba_rugi_akhir;
 
         $data = [
             'kas' => $kas,
             // 'pembelian' => $pembelian,
+            'persediaan' => $persediaan,
             'asset' => $asset,
             'aktiva' => $aktiva,
             'modal' => $modal,
@@ -135,6 +152,37 @@ class LaporanService {
         ];
 
         return $data;
+    }
+
+    public function hitungModal($tahun_bulan) {
+        $infoModal = InfoModal::first();
+        $bulanLalu = $this->getBulanLalu($tahun_bulan);
+
+        // if ($check = Keuangan::where('tanggal', 'like', "%$bulanLalu%")->first()) {
+        //     $modal = $this->getPerubahanEkuitas($bulanLalu);
+        //     return $modal['laba_rugi_akhir'];
+        // }
+        // else {
+        //     return $infoModal->modal;
+        // }
+        return $infoModal->modal;
+    }
+
+    private function hitungPersediaan($tahun_bulan) {
+        $tanggal = $this->colllectRangeTanggal($tahun_bulan);
+        $pembelian = Transaksi::where('jenis', 'pembelian')->where(function($q) use ($tanggal) {
+            foreach ($tanggal as $d) {
+                $q->orWhere('tanggal', 'like', "%$d%");
+            }
+        })->sum('total_hpp');
+
+        $penjualan = Transaksi::where('jenis', 'penjualan')->where(function($q) use ($tanggal) {
+            foreach ($tanggal as $d) {
+                $q->orWhere('tanggal', 'like', "%$d%");
+            }
+        })->sum('total_hpp');
+
+        return $pembelian - $penjualan;
     }
 
     private function hitungAsset($tahun_bulan) {
@@ -153,8 +201,14 @@ class LaporanService {
         $indexSearch = array_search($tahun_bulan, array_column($allTanggal, 'tahun_bulan'));
         $newTanggal = [];
 
-        for ($i = $indexSearch; $i < count($allTanggal) ; $i++) { 
-            array_push($newTanggal, $allTanggal[$i]['tahun_bulan']);
+        if (is_numeric($indexSearch)) {
+            for ($i = $indexSearch; $i < count($allTanggal) ; $i++) { 
+                array_push($newTanggal, $allTanggal[$i]['tahun_bulan']);
+            }
+    
+        }
+        else {
+            array_push($newTanggal, $tahun_bulan);
         }
 
         return $newTanggal;
