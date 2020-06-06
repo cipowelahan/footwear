@@ -108,6 +108,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
         Route::match(['get', 'post'], '/laba-rugi', 'Dashboard\Laporan\Laporan@labarugi');
         Route::match(['get', 'post'], '/perubahan-ekuitas', 'Dashboard\Laporan\Laporan@perubahanekuitas');
         Route::match(['get', 'post'], '/neraca', 'Dashboard\Laporan\Laporan@neraca');
+
+        Route::get('/laba-rugi/{tanggal}', 'Dashboard\Laporan\CetakLaporan@labarugi');
+        Route::get('/perubahan-ekuitas/{tanggal}', 'Dashboard\Laporan\CetakLaporan@perubahanekuitas');
+        Route::get('/neraca/{tanggal}', 'Dashboard\Laporan\CetakLaporan@neraca');
     });
 
     Route::group(['prefix' => 'profil'], function () {

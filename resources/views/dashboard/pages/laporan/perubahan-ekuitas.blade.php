@@ -12,13 +12,16 @@
                 <div class="col-sm-2">
                     Pilih Bulan
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <select name="tanggal" class="form-control">
                         <option value="">Pilih Tanggal</option>
                         @foreach($tanggal as $t)
                         <option value="{{$t['tahun_bulan']}}">{{$t['tahun_bulan_format']}}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="col-sm-2">
+                    <button id="cetak" type="butotn" class="btn btn-primary" disabled><i class="fa fa-print"></i> Cetak</button>
                 </div>
             </div>
             <hr>
@@ -84,8 +87,14 @@
 
     $(function() {
         $('[name=tanggal]').change(function(e) {
+            $('#cetak').prop('disabled', false)
             e.preventDefault()
             getPerubahanEkuitas($(this).val())
+        })
+
+        $('#cetak').click(function() {
+            var tanggal = $('[name=tanggal]').val()
+            window.open(`${thisPath}/${tanggal}`)
         })
     })
 
