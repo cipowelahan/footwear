@@ -114,6 +114,8 @@
     $(`[route="menu"]`).each(function(index, element) {
       $(element).click(function(e) {
         e.preventDefault();
+        $(`[route="menu"]`).parent().removeClass('active')
+        $(this).parent().addClass('active')
         routeMenu('get', $(this).attr('href'))
       });
     });

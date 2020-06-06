@@ -1,7 +1,6 @@
 <section class="content-header">
     <h1>
-        Data Keuangan Kas
-        <small>Daftar Keuangan Kas</small>
+        Laporan Kas
     </h1>
 </section>
 

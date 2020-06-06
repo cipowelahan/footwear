@@ -39,7 +39,7 @@ class Keuangan extends Controller {
         })
         ->orderBy('id', 'desc')
         ->paginate(10);
-        return view('dashboard.pages.kas.keuangan.index', compact('keuangan'));
+        return view('dashboard.pages.laporan.kas', compact('keuangan'));
     }
 
 }

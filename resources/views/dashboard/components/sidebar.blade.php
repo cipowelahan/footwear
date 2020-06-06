@@ -5,7 +5,7 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENU UTAMA</li>
-      <li><a href="{{url('dashboard/main')}}" route="menu"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+      <li class="active"><a href="{{url('dashboard/main')}}" route="menu"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
       <li class="treeview">
         <a href="#">
           <i class="fa fa-archive"></i> <span>Master Data</span>
@@ -44,7 +44,6 @@
         <ul class="treeview-menu">
           <li><a href="{{url('dashboard/kas/asset')}}" route="menu"><i class="fa fa-circle-o"></i>Asset</a></li>
           <li><a href="{{url('dashboard/kas/kas')}}" route="menu"><i class="fa fa-circle-o"></i>Kas</a></li>
-          <li><a href="{{url('dashboard/kas/keuangan')}}" route="menu"><i class="fa fa-circle-o"></i>Keuangan</a></li>
         </ul>
       </li>
       <li class="treeview">
@@ -55,6 +54,7 @@
           </span>
         </a>
         <ul class="treeview-menu">
+          <li><a href="{{url('dashboard/kas/keuangan')}}" route="menu"><i class="fa fa-circle-o"></i>Laporan Kas</a></li>
           <li><a href="{{url('dashboard/laporan/buku-besar')}}" route="menu"><i class="fa fa-circle-o"></i>Buku Besar</a></li>
           <li><a href="{{url('dashboard/laporan/laba-rugi')}}" route="menu"><i class="fa fa-circle-o"></i>Laba Rugi</a></li>
           <li><a href="{{url('dashboard/laporan/perubahan-ekuitas')}}" route="menu"><i class="fa fa-circle-o"></i>Perubahan Ekuitas</a></li>
