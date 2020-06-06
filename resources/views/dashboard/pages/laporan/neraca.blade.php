@@ -14,14 +14,13 @@
                 </div>
                 <div class="col-sm-3">
                     <select name="tanggal" class="form-control">
-                        <option value="">Pilih Tanggal</option>
                         @foreach($tanggal as $t)
                         <option value="{{$t['tahun_bulan']}}">{{$t['tahun_bulan_format']}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <button id="cetak" type="butotn" class="btn btn-primary" disabled><i class="fa fa-print"></i> Cetak</button>
+                    <button id="cetak" type="butotn" class="btn btn-primary"><i class="fa fa-print"></i> Cetak</button>
                 </div>
             </div>
             <hr>
@@ -34,7 +33,7 @@
                             </tr>
                             <tr>
                                 <th style="width: 40%">Kas</th>
-                                <td id="kas">0</td>
+                                <td id="kas">{{number_format($neraca['kas'])}}</td>
                             </tr>
                             {{-- <tr>
                                 <th>Pembelian</th>
@@ -42,15 +41,15 @@
                             </tr> --}}
                             <tr>
                                 <th>Persediaan</th>
-                                <td id="persediaan">0</td>
+                                <td id="persediaan">{{number_format($neraca['persediaan'])}}</td>
                             </tr>
                             <tr>
                                 <th>Asset</th>
-                                <td id="asset">0</td>
+                                <td id="asset">{{number_format($neraca['asset'])}}</td>
                             </tr>
                             <tr>
                                 <th>Total</th>
-                                <td id="aktiva">0</td>
+                                <th id="aktiva">{{number_format($neraca['aktiva'])}}</th>
                             </tr>
                         </tbody>
                     </table>
@@ -63,15 +62,15 @@
                             </tr>
                             <tr>
                                 <th style="width: 40%">Modal</th>
-                                <td id="modal">0</td>
+                                <td id="modal">{{number_format($neraca['modal'])}}</td>
                             </tr>
                             <tr>
                                 <th>Laba Ditahan</th>
-                                <td id="laba_rugi_akhir">0</td>
+                                <td id="laba_rugi_akhir">{{number_format($neraca['laba_rugi_akhir'])}}</td>
                             </tr>
                             <tr>
                                 <th>Total</th>
-                                <td id="pasiva">0</td>
+                                <th id="pasiva">{{number_format($neraca['pasiva'])}}</th>
                             </tr>
                         </tbody>
                     </table>
@@ -85,9 +84,7 @@
 <script>
     var thisPath = "{{request()->url()}}";
 
-    $('[name=tanggal]').select2({
-        placeholder: 'Pilih Tanggal'
-    });
+    $('[name=tanggal]').select2();
 
     function toCurrency(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -115,7 +112,6 @@
 
     $(function() {
         $('[name=tanggal]').change(function(e) {
-            $('#cetak').prop('disabled', false)
             e.preventDefault()
             getNeraca($(this).val())
         })

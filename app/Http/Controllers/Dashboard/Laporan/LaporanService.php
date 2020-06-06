@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Dashboard\Laporan;
 
 use App\Models\InfoModal;
+use App\Models\Master\Produk;
 use App\Models\Transaksi\Kas;
 use App\Models\Transaksi\Keuangan;
 use App\Models\Transaksi\Transaksi;
+use App\Models\Transaksi\TransaksiProduk;
 use Carbon\Carbon;
 
 class LaporanService {
@@ -233,5 +235,56 @@ class LaporanService {
 
     public function getKas($tahun_bulan) {
         return $this->sumKas($tahun_bulan);
+    }
+
+    private function hitungStokProduk($produk_id, array $tanggal) {
+        $pembelian = TransaksiProduk::where('produk_id', $produk_id)->whereHas('transaksi', function($q) use ($tanggal) {
+            $q->where('jenis', 'pembelian')->where(function($qb) use ($tanggal) {
+                foreach ($tanggal as $d) {
+                    $qb->orWhere('tanggal', 'like', "%$d%");
+                }
+            });
+        })->sum('jumlah');
+
+        $penjualan = TransaksiProduk::where('produk_id', $produk_id)->whereHas('transaksi', function($q) use ($tanggal) {
+            $q->where('jenis', 'penjualan')->where(function($qb) use ($tanggal) {
+                foreach ($tanggal as $d) {
+                    $qb->orWhere('tanggal', 'like', "%$d%");
+                }
+            });
+        })->sum('jumlah');
+
+        return $pembelian - $penjualan;
+    }
+
+    public function getPersediaan($tahun_bulan) {
+        $produk = Produk::with('kategori')->get();
+        $tanggal = $this->colllectRangeTanggal($tahun_bulan);
+
+        $produk->map(function($item) use ($tanggal) {
+            $item->stok = $this->hitungStokProduk($item->id, $tanggal);
+            return $item;
+        });
+
+        return $produk;
+    }
+
+    public function getTransaksi($jenis, $tahun_bulan) {
+        $uniqueKodeNama = TransaksiProduk::selectRaw("distinct kode_produk, nama_produk")->get();
+        $tanggal = $tahun_bulan;
+
+        $uniqueKodeNama->map(function($item) use ($tanggal, $jenis) {
+            $transaksi = TransaksiProduk::where('kode_produk', $item->kode_produk)->where('nama_produk', $item->nama_produk)
+            ->whereHas('transaksi', function($q) use ($tanggal, $jenis) {
+                $q->where('jenis', $jenis)->where('tanggal', 'like', "%$tanggal%");
+            })->get();
+
+            $item->sum_jumlah = $transaksi->sum('jumlah');
+            $item->sum_total = $transaksi->sum('total');
+            return $item;
+
+        });
+
+        return $uniqueKodeNama;
     }
 }

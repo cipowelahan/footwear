@@ -14,14 +14,13 @@
                 </div>
                 <div class="col-sm-3">
                     <select name="tanggal" class="form-control">
-                        <option value="">Pilih Tanggal</option>
                         @foreach($tanggal as $t)
                         <option value="{{$t['tahun_bulan']}}">{{$t['tahun_bulan_format']}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <button id="cetak" type="butotn" class="btn btn-primary" disabled><i class="fa fa-print"></i> Cetak</button>
+                    <button id="cetak" type="butotn" class="btn btn-primary"><i class="fa fa-print"></i> Cetak</button>
                 </div>
             </div>
             <hr>
@@ -29,51 +28,51 @@
                 <tbody>
                     <tr>
                         <th style="width: 40%">Penjualan</th>
-                        <td id="penjualan">0</td>
+                        <td id="penjualan">{{number_format($labarugi['penjualan'])}}</td>
                     </tr>
                     <tr>
                         <th>Potongan Penjualan</th>
-                        <td>(<span id="potongan_penjualan">0</span>)</td>
+                        <td>(<span id="potongan_penjualan">{{number_format($labarugi['potongan_penjualan'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Penjualan Bersih</th>
-                        <td id="penjualan_bersih">0</td>
+                        <th id="penjualan_bersih">{{number_format($labarugi['penjualan_bersih'])}}</th>
                     </tr>
                     <tr>
                         <th>HPP</th>
-                        <td>(<span id="hpp">0</span>)</td>
+                        <td>(<span id="hpp">{{number_format($labarugi['hpp'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Laba Kotor</th>
-                        <td id="laba_kotor">0</td>
+                        <th id="laba_kotor">{{number_format($labarugi['laba_kotor'])}}</th>
                     </tr>
                     <tr>
                         <th>Beban Utilitas</th>
-                        <td>(<span id="beban_utilitas">0</span>)</td>
+                        <td>(<span id="beban_utilitas">{{number_format($labarugi['beban_utilitas'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Beban Iklan</th>
-                        <td>(<span id="beban_iklan">0</span>)</td>
+                        <td>(<span id="beban_iklan">{{number_format($labarugi['beban_iklan'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Beban Sewa</th>
-                        <td>(<span id="beban_sewa">0</span>)</td>
+                        <td>(<span id="beban_sewa">{{number_format($labarugi['beban_sewa'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Beban Pemeliharaan dan Perbaikan</th>
-                        <td>(<span id="beban_pemeliharaan">0</span>)</td>
+                        <td>(<span id="beban_pemeliharaan">{{number_format($labarugi['beban_pemeliharaan'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Beban Gaji</th>
-                        <td>(<span id="beban_gaji">0</span>)</td>
+                        <td>(<span id="beban_gaji">{{number_format($labarugi['beban_gaji'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Beban Perlengkapan</th>
-                        <td>(<span id="beban_perlengkapan">0</span>)</td>
+                        <td>(<span id="beban_perlengkapan">{{number_format($labarugi['beban_perlengkapan'])}}</span>)</td>
                     </tr>
                     <tr>
                         <th>Laba Bersih</th>
-                        <td id="laba_bersih">0</td>
+                        <th id="laba_bersih">{{number_format($labarugi['laba_bersih'])}}</th>
                     </tr>
                 </tbody>
             </table>
@@ -85,9 +84,7 @@
 <script>
     var thisPath = "{{request()->url()}}";
 
-    $('[name=tanggal]').select2({
-        placeholder: 'Pilih Tanggal'
-    });
+    $('[name=tanggal]').select2();
 
     function toCurrency(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -115,7 +112,6 @@
 
     $(function() {
         $('[name=tanggal]').change(function(e) {
-            $('#cetak').prop('disabled', false)
             e.preventDefault()
             getLabaRugi($(this).val())
         })

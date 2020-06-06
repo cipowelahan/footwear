@@ -59,6 +59,9 @@
           <li><a href="{{url('dashboard/laporan/laba-rugi')}}" route="menu"><i class="fa fa-circle-o"></i>Laba Rugi</a></li>
           <li><a href="{{url('dashboard/laporan/perubahan-ekuitas')}}" route="menu"><i class="fa fa-circle-o"></i>Perubahan Ekuitas</a></li>
           <li><a href="{{url('dashboard/laporan/neraca')}}" route="menu"><i class="fa fa-circle-o"></i>Neraca</a></li>
+          <li><a href="{{url('dashboard/laporan/persediaan')}}" route="menu"><i class="fa fa-circle-o"></i>Laporan Persediaan</a></li>
+          <li><a href="{{url('dashboard/laporan/pembelian')}}" route="menu"><i class="fa fa-circle-o"></i>Laporan Pembelian</a></li>
+          <li><a href="{{url('dashboard/laporan/penjualan')}}" route="menu"><i class="fa fa-circle-o"></i>Laporan Penjualan</a></li>
         </ul>
       </li>
       <li class="treeview">

@@ -58,6 +58,8 @@ class Produk extends Controller {
             $column = $req->order_column;
             if ($column == 'kategori') $column = 'm_produk_kategori.nama';
             $q->orderBy($column, $req->order);
+        }, function($q) {
+            $q->orderBy('id', 'asc');
         })
         ->paginate(10);
         return view('dashboard.pages.master.produk.index', compact('produk'));

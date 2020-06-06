@@ -1,6 +1,6 @@
 <section class="content-header">
     <h1>
-        Laporan Perubahan Ekuitas
+        Laporan Persediaan
     </h1>
 </section>
 
@@ -25,27 +25,25 @@
             </div>
             <hr>
             <table class="table table-bordered" style="width:100%">
-                <tbody>
-                    <tr>
-                        <th style="width: 40%">Laba Ditahan Awal</th>
-                        <td id="laba_rugi_lalu">{{number_format($perubahanekuitas['laba_rugi_lalu'])}}</td>
+                <thead>
+                    <tr style="background-color: #3c8dbc; color: #ffffff">
+                        <th>Kode</th>
+                        <th>Nama</th>
+                        <th>Kategori</th>
+                        <th>Merk</th>
+                        <th>Stok</th>
                     </tr>
+                </thead>
+                <tbody id="persediaan">
+                    @foreach($produk as $data)
                     <tr>
-                        <th>Laba Ditahan Periode</th>
-                        <td id="laba_rugi_sekarang">{{number_format($perubahanekuitas['laba_rugi_sekarang'])}}</td>
+                        <td>{{$data->kode}}</td>
+                        <td>{{$data->nama}}</td>
+                        <td>{{@$data->kategori->nama}}</td>
+                        <td>{{$data->merk}}</td>
+                        <td>{{$data->stok}}</td>
                     </tr>
-                    <tr>
-                        <th>Laba Yang Tersedia</th>
-                        <th id="laba_rugi_tersedia">{{number_format($perubahanekuitas['laba_rugi_tersedia'])}}</th>
-                    </tr>
-                    <tr>
-                        <th>Prive</th>
-                        <td>(<span id="prive">{{number_format($perubahanekuitas['prive'])}}</span>)</td>
-                    </tr>
-                    <tr>
-                        <th>Laba Ditahan Akhir</th>
-                        <th id="laba_rugi_akhir">{{number_format($perubahanekuitas['laba_rugi_akhir'])}}</th>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
             
@@ -62,7 +60,7 @@
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
-    function getPerubahanEkuitas(tanggal) {
+    function getPersediaan(tanggal) {
         loader('show')
         $.ajax({
             method: 'post',
@@ -72,11 +70,20 @@
                 _token: "{{csrf_token()}}"
             },
             success: function(result) {
-                for (var data in result) {
-                    if (result.hasOwnProperty(data)) {
-                        $(`#${data}`).text(toCurrency(result[data]))
-                    }
-                }
+                $('#persediaan').empty()
+                result.forEach(el => {
+                    var template = `
+                        <tr>
+                            <td>${el.kode}</td>
+                            <td>${el.nama}</td>
+                            <td>${(el.kategori)?el.kategori.nama:''}</td>
+                            <td>${el.merk}</td>
+                            <td>${el.stok}</td>
+                        </tr>
+                    `
+
+                    $('#persediaan').append(template)
+                })
                 loader('hide')
             }
         })
@@ -85,7 +92,7 @@
     $(function() {
         $('[name=tanggal]').change(function(e) {
             e.preventDefault()
-            getPerubahanEkuitas($(this).val())
+            getPersediaan($(this).val())
         })
 
         $('#cetak').click(function() {

@@ -41,7 +41,8 @@ class Laporan extends Controller {
     public function labarugi(Request $req) {
         if ($req->isMethod('get')) {
             $tanggal = $this->service->collectTanggal();
-            return view('dashboard.pages.laporan.laba-rugi', compact('tanggal'));
+            $labarugi = $this->service->getLabaRugi($tanggal[0]['tahun_bulan']);
+            return view('dashboard.pages.laporan.laba-rugi', compact('tanggal', 'labarugi'));
         }
 
         $labarugi = $this->service->getLabaRugi($req->tanggal);
@@ -51,7 +52,8 @@ class Laporan extends Controller {
     public function perubahanekuitas(Request $req) {
         if ($req->isMethod('get')) {
             $tanggal = $this->service->collectTanggal();
-            return view('dashboard.pages.laporan.perubahan-ekuitas', compact('tanggal'));
+            $perubahanekuitas = $this->service->getPerubahanEkuitas($tanggal[0]['tahun_bulan']);
+            return view('dashboard.pages.laporan.perubahan-ekuitas', compact('tanggal', 'perubahanekuitas'));
         }
 
         $perubahanekuitas = $this->service->getPerubahanEkuitas($req->tanggal);
@@ -61,10 +63,60 @@ class Laporan extends Controller {
     public function neraca(Request $req) {
         if ($req->isMethod('get')) {
             $tanggal = $this->service->collectTanggal();
-            return view('dashboard.pages.laporan.neraca', compact('tanggal'));
+            $neraca = $this->service->getNeraca($tanggal[0]['tahun_bulan']);
+            return view('dashboard.pages.laporan.neraca', compact('tanggal', 'neraca'));
         }
 
         $neraca = $this->service->getNeraca($req->tanggal);
         return response()->json($neraca);
+    }
+
+    public function persediaan(Request $req) {
+        if ($req->isMethod('get')) {
+            $tanggal = $this->service->collectTanggal();
+            $produk = $this->service->getPersediaan($tanggal[0]['tahun_bulan']);
+            return view('dashboard.pages.laporan.persediaan', compact('tanggal', 'produk'));
+        }
+
+        $produk = $this->service->getPersediaan($req->tanggal);
+        return response()->json($produk);
+    }
+
+    public function pembelian(Request $req) {
+        if ($req->isMethod('get')) {
+            $tanggal = $this->service->collectTanggal();
+            $produk = $this->service->getTransaksi('pembelian', $tanggal[0]['tahun_bulan']);
+            $jumlah = $produk->sum('sum_jumlah');
+            $harga = $produk->sum('sum_total');
+            return view('dashboard.pages.laporan.pembelian', compact('tanggal', 'produk', 'jumlah', 'harga'));
+        }
+
+        $produk = $this->service->getTransaksi('pembelian', $req->tanggal);
+        $jumlah = $produk->sum('sum_jumlah');
+        $harga = $produk->sum('sum_total');
+        return response()->json([
+            'produk' => $produk,
+            'jumlah' => $jumlah,
+            'harga' => $harga
+        ]);
+    }
+
+    public function penjualan(Request $req) {
+        if ($req->isMethod('get')) {
+            $tanggal = $this->service->collectTanggal();
+            $produk = $this->service->getTransaksi('penjualan', $tanggal[0]['tahun_bulan']);
+            $jumlah = $produk->sum('sum_jumlah');
+            $harga = $produk->sum('sum_total');
+            return view('dashboard.pages.laporan.penjualan', compact('tanggal', 'produk', 'jumlah', 'harga'));
+        }
+
+        $produk = $this->service->getTransaksi('penjualan', $req->tanggal);
+        $jumlah = $produk->sum('sum_jumlah');
+        $harga = $produk->sum('sum_total');
+        return response()->json([
+            'produk' => $produk,
+            'jumlah' => $jumlah,
+            'harga' => $harga
+        ]);
     }
 }
