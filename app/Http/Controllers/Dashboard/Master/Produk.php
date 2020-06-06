@@ -53,7 +53,7 @@ class Produk extends Controller {
                 ->orWhere('harga_jual', 'like', '%'.$req->search.'%');
         })
         ->with('kategori')
-        ->join('m_produk_kategori', 'm_produk_kategori.id', '=', 'm_produk.kategori_id')
+        ->leftJoin('m_produk_kategori', 'm_produk_kategori.id', '=', 'm_produk.kategori_id')
         ->when($req->filled('order_column'), function($q) use ($req) {
             $column = $req->order_column;
             if ($column == 'kategori') $column = 'm_produk_kategori.nama';

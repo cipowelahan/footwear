@@ -27,7 +27,7 @@ class Asset extends Controller {
                 ->orWhere('harga_beli', 'like', '%'.$req->search.'%');
         })
         ->with('kategori')
-        ->join('m_asset_kategori', 'm_asset_kategori.id', '=', 'tr_asset.kategori_id')
+        ->leftJoin('m_asset_kategori', 'm_asset_kategori.id', '=', 'tr_asset.kategori_id')
         ->when($req->filled('order_column'), function($q) use ($req) {
             $column = $req->order_column;
             if ($column == 'kategori') $column = 'm_asset_kategori.nama';

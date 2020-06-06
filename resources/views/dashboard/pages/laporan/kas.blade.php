@@ -225,7 +225,7 @@
                                                 <label>Kategori</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->{$data->keterangan}->kategori->nama}}
+                                                {{@$data->{$data->keterangan}->kategori->nama}}
                                             </div>
                                         </div>
                                         @endif

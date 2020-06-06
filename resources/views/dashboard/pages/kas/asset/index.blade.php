@@ -108,7 +108,7 @@
                     <tr>
                         <td>{{$data->id}}</td>
                         <td>{{$data->tanggal}}</td>
-                        <td>{{$data->kategori->nama}}</td>
+                        <td>{{@$data->kategori->nama}}</td>
                         <td>{{$data->nama}}</td>
                         <td>{{$data->harga_beli_format}}</td>
                         <td>
@@ -154,7 +154,7 @@
                                                 <label>Kategori</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{$data->kategori->nama}}
+                                                {{@$data->kategori->nama}}
                                             </div>
                                         </div>
                                         <br>
