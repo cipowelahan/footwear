@@ -58,7 +58,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered" style="width:100%">
                                 <thead>
-                                    <tr>
+                                    <tr style="background-color: #3c8dbc; color: #ffffff">
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Harga</th>
@@ -247,7 +247,8 @@
                                     `<div class="col-sm-8">` +
                                     `<strong>Kode</strong> : ${item.kode} <br>` +
                                     `<strong>Nama</strong> : ${item.nama} <br>` +
-                                    `<strong>Kategori</strong> : ${item.kategori.nama} <br>` +
+                                    `<strong>Merk</strong> : ${item.merk} <br>` +
+                                    `<strong>Kategori</strong> : ${(item.kategori)?item.kategori.nama:''} <br>` +
                                     `<strong>Harga</strong> : ${item.harga_beli_format} <br>` +
                                     `<strong>Stok</strong> : ${item.stok}` +
                                     `</div></div>`,

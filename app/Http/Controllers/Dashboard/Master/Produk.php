@@ -142,7 +142,8 @@ class Produk extends Controller {
         $produk = ModelData::when($req->filled('search'), function($q) use ($req) {
             $q 
                 ->orWhere('kode', 'like', '%'.$req->search.'%')
-                ->orWhere('nama', 'like', '%'.$req->search.'%');
+                ->orWhere('nama', 'like', '%'.$req->search.'%')
+                ->orWhere('merk', 'like', '%'.$req->search.'%');
         })
         ->when($req->filled('exclude'), function($q) use ($req) {
             $exclude = explode(',', $req->exclude);

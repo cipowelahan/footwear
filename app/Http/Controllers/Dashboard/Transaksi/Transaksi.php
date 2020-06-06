@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\InfoModal;
 use App\Models\Transaksi\Transaksi as ModelData;
 use App\Models\Master\Produk;
 use App\Models\Master\Supplier;
@@ -21,23 +22,34 @@ class Transaksi extends Controller {
         }
     }
 
-    public function penjualan(Request $req) {
-        if ($req->isMethod('get')) {
-            return view('dashboard.pages.transaksi.penjualan');
-        }
+    private function processTransaction($jenis, Request $req) {
+        $response = [
+            'message' => '1',
+            'code' => 200
+        ];
 
         if(!isset($req->produk)) {
-            return response('Daftar Produk Kosong' ,422);
+            $response['message'] = 'Daftar Produk Kosong';
+            $response['code'] = 422;
+            return $response;
+        }
+
+        if ($jenis == 'pembelian') {
+            $info = InfoModal::first();
+            if ($req->total > $info->kas) {
+                $response['message'] = 'Kas Kurang. Sisa '.$info->kas_format;
+                $response['code'] = 422;
+                return $response;
+            }
         }
 
         try {
-            $jenis = 'penjualan';
             DB::beginTransaction();
             
             $transaksi = ModelData::create([
                 'jenis' => $jenis,
                 'tanggal' => $req->tanggal,
-                'diskon' => $req->diskon,
+                'diskon' => $req->diskon ?? 0,
                 'total' => $req->total,
                 'total_hpp' => $req->total_hpp,
                 'user' => auth()->user()->nama
@@ -46,12 +58,22 @@ class Transaksi extends Controller {
             $this->simpanTransaksiProduk($transaksi, $jenis, $req->produk);
 
             DB::commit();
-            return response("1");
         } catch (Exception $e) {
             DB::rollBack();
-            return response($e->getMessage() ,422);
+            $response['message'] = $e->getMessage();
+            $response['code'] = 422;
         }
 
+        return $response;
+    }
+
+    public function penjualan(Request $req) {
+        if ($req->isMethod('get')) {
+            return view('dashboard.pages.transaksi.penjualan');
+        }
+
+        $transaksi = $this->processTransaction('penjualan', $req);
+        return response($transaksi['message'], $transaksi['code']);
     }
 
     public function pembelian(Request $req) {
@@ -60,33 +82,8 @@ class Transaksi extends Controller {
             return view('dashboard.pages.transaksi.pembelian', compact('supplier'));
         }
 
-        if(!isset($req->produk)) {
-            return response('Daftar Produk Kosong' ,422);
-        }
-
-        try {
-            $jenis = 'pembelian';
-            DB::beginTransaction();
-            
-            $transaksi = ModelData::create([
-                'supplier_id' => $req->supplier_id,
-                'jenis' => $jenis,
-                'tanggal' => $req->tanggal,
-                // 'diskon' => $req->diskon,
-                'total' => $req->total,
-                'total_hpp' => $req->total_hpp,
-                'user' => auth()->user()->nama
-            ]);
-
-            $this->simpanTransaksiProduk($transaksi, $jenis, $req->produk);
-
-            DB::commit();
-            return response("1");
-        } catch (Exception $e) {
-            DB::rollBack();
-            return response($e->getMessage() ,422);
-        }
-
+        $transaksi = $this->processTransaction('pembelian', $req);
+        return response($transaksi['message'], $transaksi['code']);
     }
 
     public function riwayat(Request $req) {

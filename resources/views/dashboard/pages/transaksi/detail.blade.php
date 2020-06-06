@@ -58,7 +58,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered" style="width:100%">
                                 <thead>
-                                    <tr>
+                                    <tr style="background-color: #3c8dbc; color: #ffffff">
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Harga</th>
