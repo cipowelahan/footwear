@@ -50,6 +50,7 @@ class Transaksi extends Controller {
                 'jenis' => $jenis,
                 'tanggal' => $req->tanggal,
                 'diskon' => $req->diskon ?? 0,
+                'supplier_id' => $req->supplier_id,
                 'total' => $req->total,
                 'total_hpp' => $req->total_hpp,
                 'user' => auth()->user()->nama

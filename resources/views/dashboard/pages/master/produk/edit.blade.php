@@ -91,7 +91,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="stok">Stok</label>
                     <div class="col-sm-5">
-                        <input name="stok" class="form-control number-input" type="text" value="{{$produk->stok}}">
+                        <input name="stok" class="form-control number-input" type="text" value="{{$produk->stok}}" readonly>
                     </div>
                 </div>
                 <div class="form-group">

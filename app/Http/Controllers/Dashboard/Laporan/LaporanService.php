@@ -90,6 +90,10 @@ class LaporanService {
         foreach ($tanggal as $t) {
             $labarugi = $this->getLabaRugi($t);
             $labaawal += $labarugi['laba_bersih'];
+
+            $prive = Kas::where('kategori_id', 7)->where('tanggal', 'like', "%$t%")->where('jenis', 'pengeluaran')->get();
+            $beban_prive = ($prive->isNotEmpty()) ? $prive->sum('total') : 0;
+            $labaawal -= $beban_prive;
         }
 
         return [
@@ -237,8 +241,8 @@ class LaporanService {
         return $this->sumKas($tahun_bulan);
     }
 
-    private function hitungStokProduk($produk_id, array $tanggal) {
-        $pembelian = TransaksiProduk::where('produk_id', $produk_id)->whereHas('transaksi', function($q) use ($tanggal) {
+    private function hitungStokProduk($produk, array $tanggal) {
+        $pembelian = TransaksiProduk::where('produk_id', $produk->id)->whereHas('transaksi', function($q) use ($tanggal) {
             $q->where('jenis', 'pembelian')->where(function($qb) use ($tanggal) {
                 foreach ($tanggal as $d) {
                     $qb->orWhere('tanggal', 'like', "%$d%");
@@ -246,7 +250,7 @@ class LaporanService {
             });
         })->sum('jumlah');
 
-        $penjualan = TransaksiProduk::where('produk_id', $produk_id)->whereHas('transaksi', function($q) use ($tanggal) {
+        $penjualan = TransaksiProduk::where('produk_id', $produk->id)->whereHas('transaksi', function($q) use ($tanggal) {
             $q->where('jenis', 'penjualan')->where(function($qb) use ($tanggal) {
                 foreach ($tanggal as $d) {
                     $qb->orWhere('tanggal', 'like', "%$d%");
@@ -254,7 +258,8 @@ class LaporanService {
             });
         })->sum('jumlah');
 
-        return $pembelian - $penjualan;
+        $selisih = $pembelian - $penjualan;
+        return $selisih;
     }
 
     public function getPersediaan($tahun_bulan) {
@@ -262,7 +267,7 @@ class LaporanService {
         $tanggal = $this->colllectRangeTanggal($tahun_bulan);
 
         $produk->map(function($item) use ($tanggal) {
-            $item->stok = $this->hitungStokProduk($item->id, $tanggal);
+            $item->stok = $this->hitungStokProduk($item, $tanggal);
             return $item;
         });
 

@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label class="control-label" for="supplier_id">Supplier</label>
                             <select id="supplier" name="supplier_id" class="form-control">
-                                <option value="">Pilih Supplier</option>
+                                <option value="">Tanpa Supplier</option>
                                 @foreach($supplier as $s)
                                 <option value="{{$s->id}}">{{$s->nama}}</option>
                                 @endforeach
@@ -84,9 +84,7 @@
     var index_transaksi = 0;
     var exclude_produk = [];
 
-    $('#supplier').select2({
-        placeholder: 'Pilih Supplier'
-    })
+    $('#supplier').select2()
 
     $('#tanggal').datepicker({
       format: 'yyyy-mm-dd',
