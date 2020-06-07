@@ -107,16 +107,19 @@ class Laporan extends Controller {
             $produk = $this->service->getTransaksi('penjualan', $tanggal[0]['tahun_bulan']);
             $jumlah = $produk->sum('sum_jumlah');
             $harga = $produk->sum('sum_total');
-            return view('dashboard.pages.laporan.penjualan', compact('tanggal', 'produk', 'jumlah', 'harga'));
+            $chart = $this->service->getConvertChart($produk);
+            return view('dashboard.pages.laporan.penjualan', compact('tanggal', 'produk', 'jumlah', 'harga', 'chart'));
         }
 
         $produk = $this->service->getTransaksi('penjualan', $req->tanggal);
         $jumlah = $produk->sum('sum_jumlah');
         $harga = $produk->sum('sum_total');
+        $chart = $this->service->getConvertChart($produk);
         return response()->json([
             'produk' => $produk,
             'jumlah' => $jumlah,
-            'harga' => $harga
+            'harga' => $harga,
+            'chart' => $chart
         ]);
     }
 }

@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/summernote.min.css')}}">
   <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/fileinput.min.css')}}">
+  <link rel="stylesheet" href="{{asset('public/assets/dashboard/css/Chart.min.css')}}">
 
 </head>
 <body class="hold-transition skin-blue fixed sidebar-mini">
@@ -51,6 +52,7 @@
 <script src="{{asset('public/assets/dashboard/js/bootbox.all.min.js')}}"></script>
 <script src="{{asset('public/assets/dashboard/js/summernote.min.js')}}"></script>
 <script src="{{asset('public/assets/dashboard/js/fileinput.min.js')}}"></script>
+<script src="{{asset('public/assets/dashboard/js/Chart.min.js')}}"></script>
 <script>
   function routeMenu(method, url, data = null, cb_success = null, cb_error = null) {
     let success, error

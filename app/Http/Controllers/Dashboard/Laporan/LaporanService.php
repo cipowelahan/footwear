@@ -292,4 +292,30 @@ class LaporanService {
 
         return $uniqueKodeNama;
     }
+
+    private function rand_color() {
+        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+    }
+
+    public function getConvertChart($data) {
+        $filterData = $data->filter(function($item, $key) {
+            return $item->sum_jumlah > 0;
+        })->all();
+
+        $labels = [];
+        $datas = [];
+        $colors = [];
+
+        foreach ($filterData as $v) {
+            array_push($labels, "($v->kode_produk) $v->nama_produk");
+            array_push($datas, $v->sum_jumlah);
+            array_push($colors, $this->rand_color());
+        }
+
+        return [
+            'labels' => $labels,
+            'datas' => $datas,
+            'colors' => $colors
+        ];
+    }
 }

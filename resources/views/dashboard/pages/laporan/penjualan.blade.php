@@ -24,6 +24,10 @@
                 </div>
             </div>
             <hr>
+            <div id="canvas-chart">
+                <canvas id="chart-penjualan" width="100%" height="25"></canvas>
+            </div>
+            <hr>
             <table class="table table-bordered" style="width:100%">
                 <thead>
                     <tr style="background-color: #3c8dbc; color: #ffffff">
@@ -65,6 +69,37 @@
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
+    function generateChart(chart) {
+        $('#canvas-chart').empty()
+        $('#canvas-chart').append(`<canvas id="chart-penjualan" width="100%" height="25"></canvas>`)
+
+        var ctx = $('#chart-penjualan')
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chart.labels,
+                datasets: [
+                    {
+                        label: 'Laporan Penjualan',
+                        data: chart.datas,
+                        backgroundColor: chart.colors,
+                        borderColor: chart.colors
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        })
+    }
+
     function getPenjualan(tanggal) {
         loader('show')
         $.ajax({
@@ -91,12 +126,15 @@
 
                 $('#total-jumlah').text(result.jumlah)
                 $('#total-harga').text(toCurrency(result.harga))
+                generateChart(result.chart)
                 loader('hide')
             }
         })
     }
 
     $(function() {
+        getPenjualan($('[name=tanggal]').val())
+
         $('[name=tanggal]').change(function(e) {
             e.preventDefault()
             getPenjualan($(this).val())
