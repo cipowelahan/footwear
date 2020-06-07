@@ -115,6 +115,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth.dashboard'], functi
         Route::get('/laba-rugi/{tanggal}', 'Dashboard\Laporan\CetakLaporan@labarugi');
         Route::get('/perubahan-ekuitas/{tanggal}', 'Dashboard\Laporan\CetakLaporan@perubahanekuitas');
         Route::get('/neraca/{tanggal}', 'Dashboard\Laporan\CetakLaporan@neraca');
+        Route::get('/persediaan/{tanggal}', 'Dashboard\Laporan\CetakLaporan@persediaan');
+        Route::get('/pembelian/{tanggal}', 'Dashboard\Laporan\CetakLaporan@pembelian');
+        Route::get('/penjualan/{tanggal}', 'Dashboard\Laporan\CetakLaporan@penjualan');
     });
 
     Route::group(['prefix' => 'profil'], function () {
