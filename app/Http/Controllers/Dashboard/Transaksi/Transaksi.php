@@ -95,6 +95,7 @@ class Transaksi extends Controller {
                 })
                 ->orWhere('id', 'like', '%'.$req->search.'%')
                 ->orWhere('tanggal', 'like', '%'.$req->search.'%')
+                ->orWhere('diskon', 'like', '%'.$req->search.'%')
                 ->orWhere('total', 'like', '%'.$req->search.'%')
                 ->orWhere('user', 'like', '%'.$req->search.'%');
         })

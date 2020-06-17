@@ -58,6 +58,7 @@
                                                         <select name="order_column" class="form-control" style="width: 100%">
                                                             <option value="id">ID</option>
                                                             <option value="tanggal">Tanggal</option>
+                                                            <option value="diskon">Diskon</option>
                                                             <option value="total">Total</option>
                                                             <option value="user">User</option>
                                                         </select>
@@ -111,6 +112,7 @@
                         <th style="width:10%">Tanggal</th>
                         <th style="width:10%">Jenis</th>
                         <th>Supplier</th>
+                        <th>Diskon</th>
                         <th>Total</th>
                         <th>User</th>
                         <th style="width:15%">Aksi</th>
@@ -123,6 +125,7 @@
                         <td>{{$data->tanggal}}</td>
                         <td>{{ucfirst($data->jenis)}}</td>
                         <td>{{@$data->supplier->nama}}</td>
+                        <td>{{$data->diskon_format}}</td>
                         <td>{{$data->total_format}}</td>
                         <td>{{$data->user}}</td>
                         <td>
