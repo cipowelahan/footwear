@@ -75,6 +75,7 @@ class CetakLaporan extends Controller {
         $penjualan['tanggal'] = $this->getTanggal($tanggal);
         $penjualan['jumlah'] = $penjualan['penjualan']->sum('sum_jumlah');
         $penjualan['harga'] = $penjualan['penjualan']->sum('sum_total');
+        $penjualan['diskon'] = $this->service->getTotalDiskon($tanggal);
         $pdf = PDF::loadView('dashboard.pages.laporan.pdf.penjualan', $penjualan);
         return $pdf->stream('Penjualan '.$tanggal.'.pdf');
     }

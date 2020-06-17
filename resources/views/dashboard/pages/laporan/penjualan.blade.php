@@ -31,27 +31,58 @@
             <table class="table table-bordered" style="width:100%">
                 <thead>
                     <tr style="background-color: #3c8dbc; color: #ffffff">
-                        <th style="width: 20%">Kode</th>
-                        <th>Nama</th>
-                        <th style="width: 10%; text-align: right">Jumlah</th>
+                        <th rowspan="2" style="text-align: center; vertical-align: middle;">Kode Produk</th>
+                        <th colspan="6" style="text-align: center;">Nama Produk</th>
+                    </tr>
+                    <tr style="background-color: #3c8dbc; color: #ffffff">
+                        <th style="text-align: center">ID</th>
+                        <th style="text-align: center">Tanggal</th>
+                        <th style="text-align: center">User</th>
+                        <th style="text-align: right">Harga</th>
+                        <th style="text-align: right">Jumlah</th>
                         <th style="text-align: right">Total Harga</th>
                     </tr>
                 </thead>
                 <tbody id="persediaan">
                     @foreach($produk as $data)
                     <tr>
-                        <td>{{$data->kode_produk}}</td>
-                        <td>{{$data->nama_produk}}</td>
-                        <td style="text-align: right">{{$data->sum_jumlah}}</td>
-                        <td style="text-align: right">{{number_format($data->sum_total)}}</td>
+                        <th style="text-align: center; width: 15%;">{{$data->kode_produk}}</th>
+                        <th colspan="6" style="text-align: center">{{$data->nama_produk}}</th>
+                    </tr>
+                    @foreach($data->list_transaksi as $transaksi)
+                    <tr>
+                        <td></td>
+                        <td style="text-align: center; width: 5%;">{{$transaksi->id}}</td>
+                        <td style="text-align: center; width: 10%;">{{$transaksi->tanggal}}</td>
+                        <td style="text-align: center; width: 15%;">{{$transaksi->user}}</td>
+                        <td style="text-align: right">{{$transaksi->harga}}</td>
+                        <td style="text-align: right">{{$transaksi->jumlah}}</td>
+                        <td style="text-align: right">{{$transaksi->total_format}}</td>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <th colspan="5" style="text-align: right">TOTAL</th>
+                        <th style="text-align: right">{{$data->sum_jumlah}}</th>
+                        <th style="text-align: right">{{$data->sum_total_format}}</th>
+                    </tr>
+                    <tr>
+                        <td colspan="7" style="background-color: gray"></td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr style="background-color: #3c8dbc; color: #ffffff">
-                        <th colspan="2" style="text-align: right">TOTAL SEMUA</th>
+                        <th colspan="5" style="text-align: right">TOTAL SEMUA</th>
                         <th id="total-jumlah" style="text-align: right">{{$jumlah}}</th>
                         <th id="total-harga" style="text-align: right">{{number_format($harga)}}</th>
+                    </tr>
+                    <tr style="background-color: #3c8dbc; color: #ffffff">
+                        <th colspan="6" style="text-align: right">TOTAL DISKON TRANSAKSI</th>
+                        <th id="total-diskon" style="text-align: right">({{number_format($diskon)}})</th>
+                    </tr>
+                    <tr style="background-color: #3c8dbc; color: #ffffff">
+                        <th colspan="6" style="text-align: right">TOTAL PENJUALAN</th>
+                        <th id="total-penjualan" style="text-align: right">{{number_format($harga - $diskon)}}</th>
                     </tr>
                 </tfoot>
             </table>
@@ -114,10 +145,34 @@
                 result.produk.forEach(el => {
                     var template = `
                         <tr>
-                            <td>${el.kode_produk}</td>
-                            <td>${el.nama_produk}</td>
-                            <td style="text-align: right">${el.sum_jumlah}</td>
-                            <td style="text-align: right">${toCurrency(el.sum_total)}</td>
+                            <td style="text-align: center; width: 15%;">${el.kode_produk}</td>
+                            <td colspan="6" style="text-align: center">${el.nama_produk}</td>
+                        </tr>
+                    `
+
+                    for (let index = 0; index < el.list_transaksi.length; index++) {
+                        const transaksi = el.list_transaksi[index];
+                        template += `
+                            <tr>
+                                <td></td>
+                                <td style="text-align: center; width: 5%;">${transaksi.id}</td>
+                                <td style="text-align: center; width: 10%;">${transaksi.tanggal}</td>
+                                <td style="text-align: center; width: 15%;">${transaksi.user}</td>
+                                <td style="text-align: right">${transaksi.harga}</td>
+                                <td style="text-align: right">${transaksi.jumlah}</td>
+                                <td style="text-align: right">${transaksi.total_format}</td>
+                            </tr>
+                        `
+                    }
+
+                    template += `
+                        <tr>
+                            <th colspan="5" style="text-align: right">TOTAL</th>
+                            <th style="text-align: right">${el.sum_jumlah}</th>
+                            <th style="text-align: right">${el.sum_total_format}</th>
+                        </tr>
+                        <tr>
+                            <td colspan="7" style="background-color: gray"></td>
                         </tr>
                     `
 
@@ -126,6 +181,8 @@
 
                 $('#total-jumlah').text(result.jumlah)
                 $('#total-harga').text(toCurrency(result.harga))
+                $('#total-diskon').text(`(${toCurrency(result.diskon)})`)
+                $('#total-penjualan').text(toCurrency(result.harga - result.diskon))
                 generateChart(result.chart)
                 loader('hide')
             }

@@ -268,24 +268,48 @@ class LaporanService {
 
         $produk->map(function($item) use ($tanggal) {
             $item->stok = $this->hitungStokProduk($item, $tanggal);
+            $item->total = number_format($item->stok * $item->harga_beli);
             return $item;
         });
 
         return $produk;
     }
 
+    public function getTotalDiskon($tahun_bulan) {
+        $diskon = Transaksi::where('jenis', 'penjualan')->where('tanggal', 'like', "%$tahun_bulan%")->sum('diskon');
+        return $diskon;
+    }
+
     public function getTransaksi($jenis, $tahun_bulan) {
-        $uniqueKodeNama = TransaksiProduk::selectRaw("distinct kode_produk, nama_produk")->get();
+        $uniqueKodeNama = TransaksiProduk::selectRaw("distinct kode_produk, nama_produk")->orderBy('kode_produk', 'asc')->get();
         $tanggal = $tahun_bulan;
 
         $uniqueKodeNama->map(function($item) use ($tanggal, $jenis) {
-            $transaksi = TransaksiProduk::where('kode_produk', $item->kode_produk)->where('nama_produk', $item->nama_produk)
+            $transaksi = TransaksiProduk::with('transaksi')
+            ->where('kode_produk', $item->kode_produk)->where('nama_produk', $item->nama_produk)
             ->whereHas('transaksi', function($q) use ($tanggal, $jenis) {
                 $q->where('jenis', $jenis)->where('tanggal', 'like', "%$tanggal%");
             })->get();
 
+            $list_transaksi = [];
+            foreach ($transaksi as $tr) {
+                
+                $raw_tr = (object) [
+                    'id' => $tr->transaksi->id,
+                    'tanggal' => $tr->transaksi->tanggal,
+                    'user' => $tr->transaksi->user,
+                    'harga' => number_format($tr->harga),
+                    'jumlah' => $tr->jumlah,
+                    'total' => $tr->total,
+                    'total_format' => number_format($tr->total)
+                ];
+                array_push($list_transaksi, $raw_tr);
+            }
+
+            $item->list_transaksi = $list_transaksi;
             $item->sum_jumlah = $transaksi->sum('jumlah');
             $item->sum_total = $transaksi->sum('total');
+            $item->sum_total_format = number_format($item->sum_total);
             return $item;
 
         });

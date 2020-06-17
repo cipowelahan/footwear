@@ -32,6 +32,8 @@
                         <th>Kategori</th>
                         <th>Merk</th>
                         <th>Stok</th>
+                        <th>Harga Beli</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody id="persediaan">
@@ -42,6 +44,8 @@
                         <td>{{@$data->kategori->nama}}</td>
                         <td>{{$data->merk}}</td>
                         <td>{{$data->stok}}</td>
+                        <td>{{$data->harga_beli_format}}</td>
+                        <td>{{$data->total}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -79,6 +83,8 @@
                             <td>${(el.kategori)?el.kategori.nama:''}</td>
                             <td>${el.merk}</td>
                             <td>${el.stok}</td>
+                            <td>${el.harga_beli_format}</td>
+                            <td>${el.total}</td>
                         </tr>
                     `
 
