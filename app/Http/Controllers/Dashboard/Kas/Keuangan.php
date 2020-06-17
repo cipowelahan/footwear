@@ -18,7 +18,7 @@ class Keuangan extends Controller {
                 ->orWhere('tanggal', 'like', '%'.$req->search.'%')
                 ->orWhere('total', 'like', '%'.$req->search.'%');
         })
-        ->with(['asset.kategori', 'kas.kategori', 'transaksi'])
+        ->with(['asset.kategori', 'kas.kategori', 'transaksi.supplier'])
         ->when($req->filled('keterangan'), function($q) use ($req) {
             $q->where('keterangan', $req->keterangan);
         })

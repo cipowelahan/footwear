@@ -32,10 +32,39 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    function detailKeterangan($data) {
+                        $keterangan = $data->keterangan;
+                        $teks = ucfirst($keterangan);
+                        if (isset($data->{$keterangan})) {
+                            if ($keterangan == 'transaksi') {
+                                $transaksi = $data->{$keterangan};
+                                $teks .= ' - '.ucfirst($transaksi->jenis);
+                                $teks .= ' oleh '.$transaksi->user;
+                                if (isset($transaksi->supplier)) {
+                                    $teks .= ' Supplier '.$transaksi->supplier->nama;
+                                } 
+                            }
+                            else {
+                                $assetkas = $data->{$keterangan};
+                                $teks = '('.$assetkas->nama.') '.$teks;
+                                if (isset($assetkas->kategori)) {
+                                    $teks .= ' - '.$assetkas->kategori->nama;
+                                }
+                            }
+                        }
+
+                        return $teks;
+                    }
+                    @endphp
+
                     @foreach($keuangan as $data)
                     <tr>
                         <td>{{$data->tanggal}}</td>
-                        <td>{{ucfirst($data->keterangan)}}</td>
+                        @php
+                        $detail_keterangan = detailKeterangan($data);
+                        @endphp
+                        <td>{{$detail_keterangan}}</td>
                         <td>{{($data->jenis == 'masuk')?$data->total_format:0}}</td>
                         <td>{{($data->jenis == 'keluar')?$data->total_format:0}}</td>
                         <td>{{$data->sisa_kas_format}}</td>

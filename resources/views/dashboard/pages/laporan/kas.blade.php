@@ -117,18 +117,47 @@
                     <tr style="background-color: #3c8dbc; color: #ffffff">
                         <th style="width:10%">Tanggal</th>
                         <th style="width:10%">Jenis</th>
-                        <th>Total</th>
-                        <th style="width:20%">Keterangan</th>
+                        <th style="width:30%">Total</th>
+                        <th>Keterangan</th>
                         <th style="width:10%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    function detailKeterangan($data) {
+                        $keterangan = $data->keterangan;
+                        $teks = ucfirst($keterangan);
+                        if (isset($data->{$keterangan})) {
+                            if ($keterangan == 'transaksi') {
+                                $transaksi = $data->{$keterangan};
+                                $teks .= ' - '.ucfirst($transaksi->jenis);
+                                $teks .= ' oleh '.$transaksi->user;
+                                if (isset($transaksi->supplier)) {
+                                    $teks .= ' Supplier '.$transaksi->supplier->nama;
+                                } 
+                            }
+                            else {
+                                $assetkas = $data->{$keterangan};
+                                $teks = '('.$assetkas->nama.') '.$teks;
+                                if (isset($assetkas->kategori)) {
+                                    $teks .= ' - '.$assetkas->kategori->nama;
+                                }
+                            }
+                        }
+
+                        return $teks;
+                    }
+                    @endphp
+
                     @foreach($keuangan as $data)
                     <tr>
                         <td>{{$data->tanggal}}</td>
                         <td>{{ucfirst($data->jenis)}}</td>
                         <td>{{$data->total_format}}</td>
-                        <td>{{$data->keterangan}}</td>
+                        @php
+                        $detail_keterangan = detailKeterangan($data);
+                        @endphp
+                        <td>{{$detail_keterangan}}</td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#info{{$loop->index}}">Lihat</button>
@@ -190,7 +219,7 @@
                                                 <label>Keterangan</label>
                                             </div>
                                             <div class="col-sm-9">
-                                                {{ucfirst($data->keterangan)}}
+                                                {{$detail_keterangan}}
                                             </div>
                                         </div>
                                         <hr>

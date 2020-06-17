@@ -23,7 +23,8 @@ class Laporan extends Controller {
         $mulai = $carbon->year.'-'.$bulan.'-01';
         $selesai = $carbon->year.'-'.$bulan.'-'.str_pad($carbon->daysInMonth, 2, '0', STR_PAD_LEFT);
 
-        $keuangan = Keuangan::when($req->filled('tanggal_mulai'), function($q) use ($req) {
+        $keuangan = Keuangan::with(['asset.kategori', 'kas.kategori', 'transaksi.supplier'])
+        ->when($req->filled('tanggal_mulai'), function($q) use ($req) {
             $q->where('tanggal', '>=', $req->tanggal_mulai);
         }, function($q) use ($mulai) {
             $q->where('tanggal', '>=', $mulai);
