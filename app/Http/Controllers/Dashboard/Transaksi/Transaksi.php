@@ -13,6 +13,10 @@ use DB, Exception;
 
 class Transaksi extends Controller {
 
+    public function __construct() {
+        $this->middleware('ajax');
+    }
+
     private function simpanTransaksiProduk($transaksi, $jenis, $produk) {
         foreach ($produk as $p) {
             $transaksi->tr_produk()->create($p);

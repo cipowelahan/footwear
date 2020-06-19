@@ -8,7 +8,7 @@
 @section('extra-js')
 <script>
     $(function() {
-        routeMenu('get', "{{url('dashboard/main')}}")
+        routeMenu('get', "{{(request()->filled('redirect'))?request()->get('redirect'):url('dashboard/main')}}")
     })
 </script>
 @endsection

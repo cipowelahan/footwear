@@ -16,6 +16,6 @@ class AjaxRequest
     public function handle($request, Closure $next)
     {   
         if ($request->ajax()) return $next($request);
-        else return response('invalid request');
+        else return redirect()->route('dashboard', ['redirect' => $request->fullUrl()]);
     }
 }
